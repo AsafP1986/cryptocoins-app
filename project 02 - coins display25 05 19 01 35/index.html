@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <!-- <link rel="stylesheet" href="css/jquery-ui.css"> -->
+    <link rel="stylesheet" href="css/myCss.css" />
+    <link rel="icon" href="images/icons8-coins-48.png" />
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/canvasjs.min.js"></script>
+    <script src="js/jquery.canvasjs.min.js"></script>
+    <script src="js/custom.js"></script>
+
+    <title>Coins data project</title>
+  </head>
+
+  <body>
+    <div id="backgroundPic">
+      <div id="header">
+        <div class="container-fluid nav-container">
+          <h1>Cryptonite</h1>
+          <div id="navs" class="row">
+            <nav class="navbar navbar-expand-lg navbar-light" id="tabs">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item " id="homeTab">
+                  <a class="nav-link" href="#home"
+                    >Home
+                    <!-- <span class="sr-only">(current)</span> -->
+                  </a>
+                </li>
+                <li class="nav-item" id="liveReportsTab">
+                  <a class="nav-link" href="#">live Reports</a>
+                </li>
+                <label>
+                  <li class="nav-item" id="aboutTab">
+                    <a class="nav-link" href="#">About</a>
+                  </li>
+                </label>
+              </ul>
+              <form class="form-inline my-2 my-lg-0 searchTabs">
+                <input
+                  class="form-control mr-sm-2 my-lg-0"
+                  type="search"
+                  placeholder="Search by coin id.."
+                  id="searchInput"
+                />
+                <button
+                  class="btn btn-outline-success my-2 my-sm-0"
+                  type="submit"
+                  id="searchBtn"
+                >
+                  Search
+                </button>
+              </form>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <div id="home" class="row"></div>
+    </div>
+
+    <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header text-center">
+            <h4 class="modal-title">
+              you can only select 5 coins for live report
+            </h4>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              id="modalCloseIcon"
+            >
+              &times;
+            </button>
+          </div>
+
+          <!-- modal -->
+          <div class="modal-body"></div>
+          <div class="modal-footer"></div>
+          <h5 id="alertModalInputBig">
+            please uncheck atleast one of the coins
+          </h5>
+          <button
+            type="button"
+            class="btn btn-info"
+            data-dismiss="modal"
+            id="modalSaveBtn"
+          >
+            save
+          </button>
+          <button
+            type="button"
+            class="btn btn-info"
+            data-dismiss="modal"
+            id="modalSaveAndGoBtn"
+          >
+            save and go to live reports
+          </button>
+        </div>
+      </div>
+      <!-- end modal -->
+    </div>
+  </body>
+</html>
