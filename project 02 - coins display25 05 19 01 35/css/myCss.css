@@ -1,3 +1,11 @@
+body {
+  background-image: url("../images/cryptocoinsBG.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
 #header {
   width: 90%;
   margin-top: 0;

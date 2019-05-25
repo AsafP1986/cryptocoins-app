@@ -27,6 +27,7 @@ var dataSeries = [];
 // checkIfIn3APIFunc(storedResponse);
 $(document).ready(function() {
   storedResponse = getCoins();
+  localStorage.setItem("storedResponse", JSON.stringify(storedResponse));
   $(".moreInfo").hide();
 });
 
@@ -35,7 +36,6 @@ $(document).on("click", "#homeTab", function() {
 });
 $(document).on("click", "#liveReportsTab", function() {
   $("#home").load("./livereports.html");
-  creatChart();
 });
 
 $(document).on("click", "#aboutTab", function() {
@@ -92,42 +92,6 @@ function getCardElement(element) {
 
   return card;
 }
-
-/* good card? */
-
-/* <div id="MI_${element.id}" class="collapse">
-              <div class="d-flex justify-content-center">
-                <div id="CSD_${
-                  element.id
-                }" class="spinner-border" role="status">
-                   <span class="sr-only">Loading...</span>
-                </div>
-              </div> */
-
-// `<div class="card col-sm-12 col-md-4 col-lg-3" id="card-${
-//   element.id
-// }">
-// <div class="card-body">
-// <div class="custom-control custom-switch">
-//    <input type="checkbox" class="custom-control-input" data-coinName="${
-//      element.id
-//    }" id="customSwitches${element.id}">
-// <label class="custom-control-label" for="customSwitches${element.id}"></label>
-// </div>
-//  <h5 class="card-title">${element.symbol}</h5>
-//  <p class="card-text">${element.name}</p>
-//  <button type="button" class="btn btn-info btn-block more-info-btn" data-toggle="collapse" data-target="#MI_${
-//    element.id
-//  }">more info</button>
-//   <div id="MI_${element.id}" class="collapse">
-//     <div class="d-flex justify-content-center">
-//      <div id="CSD_${element.id}" class="spinner-border" role="status">
-//        <span class="sr-only">Loading...</span>
-//      </div>
-//     </div>
-//   </div>
-// </div>
-// </div>`
 
 function searchCoin() {
   var search = $("#searchInput").val();
@@ -192,10 +156,6 @@ $(document).on("click", ".more-info-btn", function(element) {
   loadedlocalStorage = localStorage.getItem("MIStorage");
 
   if (loadedlocalStorage == null) {
-    // newCuInfo.coinId = id;
-    // newCuInfo.time = minuteClicked;
-    // loadedlocalStorageArr.push(newCuInfo);
-    // localStorage.setItem("MIStorage", JSON.stringify(loadedlocalStorageArr));
     getNewMoreInfo(id, minuteClicked);
   } else {
     loadedlocalStorageArr = JSON.parse(loadedlocalStorage);
@@ -347,6 +307,8 @@ $(document).on("click", ".custom-control-input", function(element) {
         break;
     }
   }
+
+  localStorage.setItem("dataForChart", JSON.stringify(modalInput));
 });
 
 /************* end click on card toggle *************/
@@ -369,9 +331,15 @@ $(document).on("click", ".modal-switch", function(element) {
 
 /**************   click on modal buttons **************/
 
-$(document).on("click", "#modalSaveAndGoBtn", function(element) {
+$(document).on("click", ".modalSaveAndGoBtn", function(element) {
   $("#home").load("./livereports.html ");
-  creatChart();
+});
+
+$(document).on("show", "#myModal", function(element) {
+  printModalBody();
+});
+$(document).on("click", ".modal-open", function(element) {
+  printModalBody();
 });
 
 $(document).on("hide.bs.modal", "#myModal", function(element) {
@@ -380,13 +348,8 @@ $(document).on("hide.bs.modal", "#myModal", function(element) {
   if (modalInputSize == "big") {
     alert("please uncheck at least one of the coins");
     element.preventDefault();
-    // element.stopPropagation();
-    // $("#alertModalInputBig").attr("style", "display:block");
-
-    // $("#myModal").modal("show");
   }
-  // $("#alertModalInputBig").attr("style", "display:none");
-  updateChartData(modalInput);
+  localStorage.setItem("dataForChart", JSON.stringify(modalInput));
 });
 
 /**************  end click on modal buttons **************/
@@ -431,15 +394,17 @@ function checkModalInputLength(id) {
 }
 
 function printModalBody() {
+  modalInput = localStorage.getItem("dataForChart");
+  var modalInputParsed = JSON.parse(modalInput);
   $("#modal-body-container").html(" ");
   $("#modal-footer-container").html(" ");
-  modalInput.forEach(function(item, counter) {
+  modalInputParsed.forEach(function(item, counter) {
     if (counter <= 4) {
       $("#modal-body-container").append(`
       <div class="row">
-      <div class="custom-control custom-switch modal-switch col-sm-12">
-      <label class="custom-control-label" for="modalSwitches${item}">${item}</label>
-         <input type="checkbox" class="custom-control-input modal-switch" data-coinName="${item}" id="modalSwitches${item}" data-target="toggle">
+      <div class="custom-control${item} custom-switch${item} modal-switch${item} col-sm-12">
+      <input type="checkbox" class="custom-control-input${item} modal-switch${item}" data-coinName="${item}" id="modalSwitches${item}">
+      <label class="custom-control-label${item}" for="modalSwitches${item}">${item}</label>
            
       </div>
       </div> 
@@ -447,9 +412,9 @@ function printModalBody() {
     } else {
       $("#modal-footer-container").append(`
       <div class="row">
-      <div class="custom-control custom-switch modal-switch col-sm-12">
-      <label class="custom-control-label" for="modalSwitches${item}">last coin picked: ${item}</label>
-         <input type="checkbox" class="custom-control-input modal-switch" data-coinName="${item}" id="modalSwitches${item}" data-target="toggle">
+      <div class="custom-control${item} custom-switch${item} modal-switch${item} col-sm-12">
+      <input type="checkbox" class="custom-control-input${item} modal-switch" data-coinName="${item}" id="modalSwitches${item}">
+      <label class="custom-control-label${item}" for="modalSwitches${item}">last coin picked: ${item}</label>
       </div>
       </div>       
          `);
