@@ -28,7 +28,7 @@ var dataSeries = [];
 // checkIfIn3APIFunc(storedResponse);
 $(document).ready(function() {
   getCoins();
-  $(".moreInfo").hide();
+  // $(".moreInfo").hide();
 });
 
 $(document).on("click", "#homeTab", function() {
@@ -54,6 +54,7 @@ function getCoins() {
     url: "https://api.coingecko.com/api/v3/coins/list",
     type: "GET",
     success: function(response) {
+      storedResponse = response;
       $("#home").html("");
       response.forEach(function(element, index) {
         if (index < 100) {
@@ -89,27 +90,6 @@ function getCardElement(element) {
       <div class="moreInfo collapse" id="MI_${element.id}"></div>   
     </div>
   </div>`;
-
-  // <div class="col-sm-12 col-md-4 col-lg-3" id="card_${element.id}"">
-  // <div class="card">
-
-  //     <div class="custom-control custom-switch">
-  //         <input type="checkbox" class="custom-control-input" data-coinName="${
-  //                 element.id
-  //               }" id="cardToggle_${element.id}" data-toggle="toggle">
-  //               <label class="custom-control-label" for="cardToggle_${
-  //                 element.id
-  //               }" data-coinName="${element.id}">
-  //               </label>
-  //     </div>
-  //     <h5 class="card-title">${element.symbol}</h5>
-  //     <p class="card-text">${element.name}</p>
-  //     <button type="button" class="btn btn-secondary btn-block more-info-btn" data-toggle="collapse" data-target="#MI_${
-  //               element.id
-  //             }" aria-expanded="false" aria-controls="MI_${element.id}">more info</button>
-  //     <div class="moreInfo collapse" id="MI_${element.id}"></div>
-  //   </div>
-  // </div>
 
   return card;
 }
@@ -158,7 +138,6 @@ function searchCoin() {
 /************ more info ***********/
 
 $(document).on("click", ".more-info-btn", function(element) {
-  // var data = $(element).relatedTarget;
   var timeClicked = new Date();
   var minuteClicked = timeClicked.getTime();
 
@@ -195,7 +174,7 @@ $(document).on("click", ".more-info-btn", function(element) {
         }" class="list-group list-group-flush">
             <li class="list-group-item more-info-item" id="CVILS_${
               loadedlocalStorageArr[location].coinId
-            }">maroco - ILS: ${loadedlocalStorageArr[location].ils} &#8362;</li>
+            }">ILS: ${loadedlocalStorageArr[location].ils} &#8362;</li>
             <li class="list-group-item more-info-item" id="CVUSD_${
               loadedlocalStorageArr[location].coinId
             }">USD: ${loadedlocalStorageArr[location].usd} &#36;</li>
@@ -295,8 +274,15 @@ function getNewMoreInfo(id, minuteClicked) {
 $(document).on("click", ".custom-control-input", function(element) {
   let id = $(this).attr("data-coinName");
   let isChecked = $(`#cardToggle_${id}`).is(":checked");
-  let modalInputSize = checkModalInputLength(id);
   let isFromModal = $(this).hasClass("modal-switch");
+  modalInputSize = checkModalInputLength(id);
+  modalInput = localStorage.getItem("dataForChart");
+
+  console.log("id from click on cardtoggle: " + id);
+  console.log("isChecked from click on card: " + isChecked);
+  console.log("isFromModal from click on cardtoggle: " + isFromModal);
+  console.log("modalInputSize from click on cardtoggle: " + modalInputSize);
+  console.log("modalInput from click on cardtoggle: " + modalInput);
 
   if (isFromModal) {
     if ($(`#modalSwitches${id}`).is(":checked")) {
@@ -311,7 +297,7 @@ $(document).on("click", ".custom-control-input", function(element) {
         if (isChecked) {
           modalAdd(id);
         } else {
-          modalRed(id, modalInput);
+          modalRed(id);
         }
         break;
       case "six":
@@ -331,20 +317,21 @@ $(document).on("click", ".custom-control-input", function(element) {
   console.log("modalInput from click on card: " + modalInput);
   console.log("type of modalInput from click on card: " + typeof modalInput);
 
-  localStorage.setItem("dataForChart", JSON.stringify(modalInput));
+  localStorage.setItem("dataForChart", modalInput);
 });
 
 /************* end click on card toggle *************/
 
 /**************  click on modal toggles **************/
 $(document).on("click", ".modal-switch", function(element) {
+  modalInput = localStorage.getItem("dataForChart");
   let id = $(this).attr("data-coinName");
   let isChecked = $(`#modalSwitches${id}`).is(":checked");
   console.log("id: " + id);
 
   console.log("isChecked: " + isChecked);
   if (isChecked == false) {
-    modalRed(id, modalInput);
+    modalRed(id);
   } else {
     modalAdd(id);
   }
@@ -366,7 +353,8 @@ $(document).on("click", ".modal-open", function(element) {
 });
 
 $(document).on("hide.bs.modal", "#myModal", function(element) {
-  let modalInputSize = checkModalInputLength(element);
+  // let
+  modalInputSize = checkModalInputLength(element);
 
   if (modalInputSize == "big") {
     alert("please uncheck at least one of the coins");
@@ -383,26 +371,28 @@ $(document).on("hide.bs.modal", "#myModal", function(element) {
 function modalAdd(id) {
   var coinsearch = id;
   var isCoinInArr = "";
-  modalInput.forEach(function(item, counter) {
-    if (item == coinsearch) {
+  // modalInput.forEach(function(item, counter) {}
+  for (let index = 0; index < modalInput.length; index++) {
+    if (modalInput[index] == coinsearch) {
+      isCoinInArr = true;
+    } else {
       isCoinInArr = true;
     }
-  });
-  if (isCoinInArr == false) {
-    modalInput.push(id);
+    if (isCoinInArr == false) {
+      modalInput.push(id);
+    }
   }
 }
 
-function modalRed(id, modalInput) {
+function modalRed(id) {
   var coinsearch = id;
-  var indexInArr = "";
 
-  modalInput.forEach(function(item, counter) {
-    if (item == coinsearch) {
-      indexInArr = counter;
-      modalInput.splice(indexInArr, 1);
+  // modalInput.forEach(function(item, counter) {}
+  for (let index = 0; index < modalInput.length; index++) {
+    if (modalInput[index] == coinsearch) {
+      modalInput.splice(index, 1);
     }
-  });
+  }
 }
 
 function checkModalInputLength(id) {
