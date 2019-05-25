@@ -66,29 +66,50 @@ function getCoins() {
 }
 
 function getCardElement(element) {
-  var card = `<div class="card col-sm-12 col-md-4 col-lg-3" id="card_${
-    element.id
-  }"">
-      
-          <div class="custom-control custom-switch">              
-                
-                <input type="checkbox" class="custom-control-input" data-coinName="${
-                  element.id
-                }" id="cardToggle_${element.id}" data-toggle="toggle">
+  var card = `
+  <div class="col-sm-12 col-md-4 col-lg-3" id="card_${element.id}"">
+  <div class="card">
+    
+      <div class="custom-control custom-switch">              
+          <input type="checkbox" class="custom-control-input" data-coinName="${
+            element.id
+          }" id="cardToggle_${element.id}" data-toggle="toggle">
                 <label class="custom-control-label" for="cardToggle_${
                   element.id
                 }" data-coinName="${element.id}">
                 </label>
-                </div>
-              <h5 class="card-title">${element.symbol}</h5>
-              <p class="card-text">${element.name}</p> 
-              <button type="button" class="btn btn-secondary btn-block more-info-btn" data-toggle="collapse" data-target="#MI_${
-                element.id
-              }" aria-expanded="false" aria-controls="MI_${
+      </div>        
+      <h5 class="card-title">${element.symbol}</h5>
+      <p class="card-text">${element.name}</p> 
+      <button type="button" class="btn btn-secondary btn-block more-info-btn" data-toggle="collapse" data-target="#MI_${
+        element.id
+      }" aria-expanded="false" aria-controls="MI_${
     element.id
   }">more info</button>             
-            <div class="moreInfo collapse" id="MI_${element.id}"></div>   
-    </div>`;
+      <div class="moreInfo collapse" id="MI_${element.id}"></div>   
+    </div>
+  </div>`;
+
+  // <div class="col-sm-12 col-md-4 col-lg-3" id="card_${element.id}"">
+  // <div class="card">
+
+  //     <div class="custom-control custom-switch">
+  //         <input type="checkbox" class="custom-control-input" data-coinName="${
+  //                 element.id
+  //               }" id="cardToggle_${element.id}" data-toggle="toggle">
+  //               <label class="custom-control-label" for="cardToggle_${
+  //                 element.id
+  //               }" data-coinName="${element.id}">
+  //               </label>
+  //     </div>
+  //     <h5 class="card-title">${element.symbol}</h5>
+  //     <p class="card-text">${element.name}</p>
+  //     <button type="button" class="btn btn-secondary btn-block more-info-btn" data-toggle="collapse" data-target="#MI_${
+  //               element.id
+  //             }" aria-expanded="false" aria-controls="MI_${element.id}">more info</button>
+  //     <div class="moreInfo collapse" id="MI_${element.id}"></div>
+  //   </div>
+  // </div>
 
   return card;
 }
