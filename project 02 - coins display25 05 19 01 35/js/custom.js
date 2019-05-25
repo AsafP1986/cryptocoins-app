@@ -4,6 +4,8 @@ var loadedlocalStorage = "";
 var storedInfoArr = [];
 var newCuInfo = {
   coinId: "",
+  coinSymbol: "",
+  coinName: "",
   time: "",
   ils: "",
   usd: "",
@@ -25,9 +27,7 @@ var dataSeries = [];
 // checkIfIn3APIFunc(storedResponse);
 $(document).ready(function() {
   storedResponse = getCoins();
-  $(function() {
-    $("#cardToggle").bootstrapToggle();
-  });
+  $(".moreInfo").hide();
 });
 
 $(document).on("click", "#homeTab", function() {
@@ -71,39 +71,39 @@ function getCardElement(element) {
   }"">
       
           <div class="custom-control custom-switch">              
-            <label class="custom-control-label" for="cardToggle_${
-              element.id
-            }" data-coinName="${element.id}">
-               <input type="checkbox" class="custom-control-input " data-coinName="${
-                 element.id
-               }" id="cardToggle_${element.id}" data-toggle="toggle">
-            </label>
-              
+                
+                <input type="checkbox" class="custom-control-input" data-coinName="${
+                  element.id
+                }" id="cardToggle_${element.id}" data-toggle="toggle">
+                <label class="custom-control-label" for="cardToggle_${
+                  element.id
+                }" data-coinName="${element.id}">
+                </label>
+                </div>
               <h5 class="card-title">${element.symbol}</h5>
-              <p class="card-text">${element.name}</p>
-          </div>
-          
-          <div class="moreInfo">
-            <button type="button" class="btn btn-secondary btn-block more-info-btn" data-toggle="collapse" data-target="#MI_${
-              element.id
-            }">more info</button>
-            </div>
-          <div id="MI_${element.id}" class="collapse">
+              <p class="card-text">${element.name}</p> 
+              <button type="button" class="btn btn-secondary btn-block more-info-btn" data-toggle="collapse" data-target="#MI_${
+                element.id
+              }" aria-expanded="false" aria-controls="MI_${
+    element.id
+  }">more info</button>             
+            <div class="moreInfo collapse" id="MI_${element.id}"></div>   
+    </div>`;
+
+  return card;
+}
+
+/* good card? */
+
+/* <div id="MI_${element.id}" class="collapse">
               <div class="d-flex justify-content-center">
                 <div id="CSD_${
                   element.id
                 }" class="spinner-border" role="status">
                    <span class="sr-only">Loading...</span>
                 </div>
-              </div>
-      
-    </div>
-`;
+              </div> */
 
-  return card;
-}
-
-/* good card? */
 // `<div class="card col-sm-12 col-md-4 col-lg-3" id="card-${
 //   element.id
 // }">
@@ -180,8 +180,8 @@ $(document).on("click", ".more-info-btn", function(element) {
   var d = $(this).attr("data-target");
   var res = d.split("_");
   var id = res[1];
-
-  $(`#cardBody_${id}`).append(`<div id="MI_${id}" class="collapse"> 
+  $(`#MI_${id}`);
+  $(`#MI_${id}`).append(`<div id="MISpinner_${id}" class="collapse"> 
 <div class="d-flex justify-content-center">
   <div id="CSD_${element.id}" class="spinner-border" role="status">
     <span class="sr-only">Loading...</span>
@@ -192,15 +192,15 @@ $(document).on("click", ".more-info-btn", function(element) {
   loadedlocalStorage = localStorage.getItem("MIStorage");
 
   if (loadedlocalStorage == null) {
-    newCuInfo.coinId = id;
-    newCuInfo.time = minuteClicked;
-    loadedlocalStorageArr.push(newCuInfo);
-    localStorage.setItem("MIStorage", JSON.stringify(loadedlocalStorageArr));
+    // newCuInfo.coinId = id;
+    // newCuInfo.time = minuteClicked;
+    // loadedlocalStorageArr.push(newCuInfo);
+    // localStorage.setItem("MIStorage", JSON.stringify(loadedlocalStorageArr));
     getNewMoreInfo(id, minuteClicked);
   } else {
     loadedlocalStorageArr = JSON.parse(loadedlocalStorage);
     var isInLS = searchInLS(id);
-    if (isInLS === NaN) {
+    if (isInLS == false) {
       getNewMoreInfo(id, minuteClicked);
     } else {
       var location = isInLS;
@@ -214,14 +214,15 @@ $(document).on("click", ".more-info-btn", function(element) {
         }" class="list-group list-group-flush">
             <li class="list-group-item more-info-item" id="CVILS_${
               loadedlocalStorageArr[location].coinId
-            }">maroco - ILS: ${loadedlocalStorageArr[location].ils}</li>
+            }">maroco - ILS: ${loadedlocalStorageArr[location].ils} &#8362;</li>
             <li class="list-group-item more-info-item" id="CVUSD_${
               loadedlocalStorageArr[location].coinId
-            }">USD: ${loadedlocalStorageArr[location].usd}</li>
+            }">USD: ${loadedlocalStorageArr[location].usd} &#36;</li>
             <li class="list-group-item more-info-item" id="CVEUR_${
               loadedlocalStorageArr[location].coinId
-            }">EUR: ${loadedlocalStorageArr[location].eur}</li>
+            }">EUR: ${loadedlocalStorageArr[location].eur} &#128;</li>
           </ul></div>`);
+        $(`#MI_${loadedlocalStorageArr[location].coinId}`).show();
       } else {
         updateMI(id, minuteClicked);
       }
@@ -240,13 +241,13 @@ function updateMI(id, minuteClicked) {
       }" class="list-group list-group-flush">
             <li class="list-group-item more-info-item" id="CVILS_${
               response.id
-            }">ILS: ${response.market_data.current_price.ils}</li>
+            }">ILS: ${response.market_data.current_price.ils} &#8362;</li>
             <li class="list-group-item more-info-item" id="CVUSD_${
               response.id
-            }">USD: ${response.market_data.current_price.usd}</li>
+            }">USD: ${response.market_data.current_price.usd} &#36;</li>
             <li class="list-group-item more-info-item" id="CVEUR_${
               response.id
-            }">EUR: ${response.market_data.current_price.eur}</li>
+            }">EUR: ${response.market_data.current_price.eur} &#128;</li>
           </ul></div>`);
     }
   });
@@ -275,22 +276,25 @@ function getNewMoreInfo(id, minuteClicked) {
       }" class="list-group list-group-flush">
             <li class="list-group-item more-info-item" id="CVILS_${
               response.id
-            }">ILS: ${response.market_data.current_price.ils}</li>
+            }">ILS: ${response.market_data.current_price.ils} &#8362;</li>
             <li class="list-group-item more-info-item" id="CVUSD_${
               response.id
-            }">USD: ${response.market_data.current_price.usd}</li>
+            }">USD: ${response.market_data.current_price.usd} &#36;</li>
             <li class="list-group-item more-info-item" id="CVEUR_${
               response.id
-            }">EUR: ${response.market_data.current_price.eur}</li>
+            }">EUR: ${response.market_data.current_price.eur} &#128;</li>
           </ul></div>`);
+
       newCuInfo = {
         coinId: response.id,
+        coinSymbol: response.symbol,
         coinName: response.name,
         time: minuteClicked,
         ils: response.market_data.current_price.ils,
         usd: response.market_data.current_price.usd,
         eur: response.market_data.current_price.eur
       };
+
       // storedInfoArr[index] = newCuInfo;
       storedInfoArr.push(newCuInfo);
       console.log(`to storage:  + ${newCuInfo.coinId}`);
@@ -307,13 +311,12 @@ function getNewMoreInfo(id, minuteClicked) {
 /************ end more info ***********/
 
 /************* click on card toggle *************/
-$(document).on("click", ".custom-control-label", function(element) {
+$(document).on("click", ".custom-control-input", function(element) {
   let id = $(this).attr("data-coinName");
   let isChecked = $(`#cardToggle_${id}`).is(":checked");
   let modalInputSize = checkModalInputLength(id);
   let isFromModal = $(this).hasClass("modal-switch");
-  // console.log(modalInputSize);
-  // console.log(isFromModal);
+
   if (isFromModal) {
     if ($(`#modalSwitches${id}`).is(":checked")) {
       $(`#cardToggle_${id}`).prop("checked", true);
@@ -434,21 +437,18 @@ function printModalBody() {
     if (counter <= 4) {
       $(".modal-body").append(`
       <div class="modal-row">
-      <div class="custom-control custom-switch">
-          <span>${item}</span>
+      <div class="custom-control custom-switch modal-switch">
          <input type="checkbox" class="custom-control-input modal-switch" data-coinName="${item}" id="modalSwitches${item}">
-         <label class="custom-control-label" for="modalSwitches${item}"></label>
-      </div> 
+         <label class="custom-control-label" for="modalSwitches${item}">${item}</label>  
+      </div>
       </div> 
          `);
     } else {
       $(".modal-footer").append(`
       <div class="modal-row">
-      <div class="custom-control custom-switch">
-          <label>${item}
+      <div class="custom-control custom-switch modal-switch">
          <input type="checkbox" class="custom-control-input modal-switch" data-coinName="${item}" id="modalSwitches${item}">
-         <label class="custom-control-label" for="modalSwitches${item}">last coin picked: </label>
-         </label>
+         <label class="custom-control-label" for="modalSwitches${item}">last coin picked: ${item}</label>
       </div>
       </div>       
          `);
@@ -510,7 +510,7 @@ function creatChart() {
 }
 
 function updateChartData() {
-  updateChartData();
+  // updateChartData();
   var modalInputToSend = [];
 
   modalInput.forEach(element => {
