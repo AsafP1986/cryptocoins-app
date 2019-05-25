@@ -1,73 +1,72 @@
-/*global vars*/
-var loadedlocalStorageArr = [];
-var loadedlocalStorage = "";
-var storedInfoArr = [];
-var newCuInfo = {
-  coinId: "",
-  coinSymbol: "",
-  coinName: "",
-  time: "",
-  ils: "",
-  usd: "",
-  eur: ""
-};
-var index = 0;
-var i = "";
-var modalInput = [];
-var modalInputSize = "";
-var modalInput = "";
-var storedResponse = [];
-var coinSymbols = [];
-var checkIfIn3API = new Boolean();
-var goodCoinsToPrint = [];
-var dataSeries = [];
-
-/* end global vars*/
-
-// storedResponse = getCoins();
-// checkIfIn3APIFunc(storedResponse);
 $(document).ready(function() {
+  /*global vars*/
+  var loadedlocalStorageArr = [];
+  var loadedlocalStorage = "";
+  var storedInfoArr = [];
+  var newCuInfo = {
+    coinId: "",
+    coinSymbol: "",
+    coinName: "",
+    time: "",
+    ils: "",
+    usd: "",
+    eur: ""
+  };
+  var index = 0;
+  var i = "";
+  var modalInput = [];
+  var modalInputSize = "";
+  var storedResponse = [];
+  var coinSymbols = [];
+  var checkIfIn3API = new Boolean();
+  var goodCoinsToPrint = [];
+  var dataSeries = [];
+
+  /* end global vars*/
+
+  // storedResponse = getCoins();
+  // checkIfIn3APIFunc(storedResponse);
+
   getCoins();
   // $(".moreInfo").hide();
-});
 
-$(document).on("click", "#homeTab", function() {
-  getCoins();
-});
-$(document).on("click", "#liveReportsTab", function() {
-  $("#home").load("./livereports.html");
-});
-
-$(document).on("click", "#aboutTab", function() {
-  $("#home").load("./about.html");
-});
-
-$(document).on("click", "#searchBtn", function() {
-  searchCoin();
-});
-
-/* end nav functions */
-
-function getCoins() {
-  var card = "";
-  $.ajax({
-    url: "https://api.coingecko.com/api/v3/coins/list",
-    type: "GET",
-    success: function(response) {
-      storedResponse = response;
-      $("#home").html("");
-      response.forEach(function(element, index) {
-        if (index < 100) {
-          card = getCardElement(element);
-          $("#home").append(card);
-        }
-      });
-    }
+  $(document).on("click", "#homeTab", function() {
+    getCoins();
   });
-}
+  $(document).on("click", "#liveReportsTab", function() {
+    $("#home").load("./livereports.html");
+  });
 
-function getCardElement(element) {
-  var card = `
+  $(document).on("click", "#aboutTab", function() {
+    $("#home").load("./about.html");
+  });
+
+  $(document).on("click", "#searchBtn", function() {
+    searchCoin();
+  });
+
+  /* end nav functions */
+
+  function getCoins() {
+    var card = "";
+    $.ajax({
+      url: "https://api.coingecko.com/api/v3/coins/list",
+      type: "GET",
+      success: function(response) {
+        storedResponse = response;
+        $("#home").html("");
+        response.forEach(function(element, index) {
+          if (index < 100) {
+            card = getCardElement(element);
+            $("#home").append(card);
+          }
+        });
+      }
+    });
+  }
+
+  function getCardElement(element) {
+    var card = `
   <div class="col-sm-12 col-md-4 col-lg-3" id="card_${element.id}"">
   <div class="card">
     
@@ -85,25 +84,25 @@ function getCardElement(element) {
       <button type="button" class="btn btn-secondary btn-block more-info-btn" data-toggle="collapse" data-target="#MI_${
         element.id
       }" aria-expanded="false" aria-controls="MI_${
-    element.id
-  }">more info</button>             
+      element.id
+    }">more info</button>             
       <div class="moreInfo collapse" id="MI_${element.id}"></div>   
     </div>
   </div>`;
 
-  return card;
-}
+    return card;
+  }
 
-function searchCoin() {
-  var search = $("#searchInput").val();
+  function searchCoin() {
+    var search = $("#searchInput").val();
 
-  $.ajax({
-    url: `https://api.coingecko.com/api/v3/coins/${search}`,
-    type: "GET",
-    success: function(element) {
-      // console.log(response);
-      $("#home").html("");
-      $("#home").append(`<div class="card col-sm-6 col-md-3 col-lg-3">
+    $.ajax({
+      url: `https://api.coingecko.com/api/v3/coins/${search}`,
+      type: "GET",
+      success: function(element) {
+        // console.log(response);
+        $("#home").html("");
+        $("#home").append(`<div class="card col-sm-6 col-md-3 col-lg-3">
           <div class="card-body">
             <h5 class="card-title">${element.symbol}</h5>
             <p class="card-text">${element.name}</p>
@@ -125,27 +124,27 @@ function searchCoin() {
             </div>
         </div>
        </div>`);
-    },
-    error: function() {
-      $("#home").html(
-        `<div class="col-sm-12"><h1 class="text-center display-1">input was not found</h1></div>`
-      );
-    }
-  });
-}
+      },
+      error: function() {
+        $("#home").html(
+          `<div class="col-sm-12"><h1 class="text-center display-1">input was not found</h1></div>`
+        );
+      }
+    });
+  }
 
-/* card functions */
-/************ more info ***********/
+  /* card functions */
+  /************ more info ***********/
 
-$(document).on("click", ".more-info-btn", function(element) {
-  var timeClicked = new Date();
-  var minuteClicked = timeClicked.getTime();
+  $(document).on("click", ".more-info-btn", function(element) {
+    var timeClicked = new Date();
+    var minuteClicked = timeClicked.getTime();
 
-  var d = $(this).attr("data-target");
-  var res = d.split("_");
-  var id = res[1];
-  $(`#MI_${id}`);
-  $(`#MI_${id}`).append(`<div id="MISpinner_${id}" class="collapse"> 
+    var d = $(this).attr("data-target");
+    var res = d.split("_");
+    var id = res[1];
+    $(`#MI_${id}`);
+    $(`#MI_${id}`).append(`<div id="MISpinner_${id}" class="collapse"> 
 <div class="d-flex justify-content-center">
   <div id="CSD_${element.id}" class="spinner-border" role="status">
     <span class="sr-only">Loading...</span>
@@ -153,25 +152,25 @@ $(document).on("click", ".more-info-btn", function(element) {
   </div>
   </div>`);
 
-  loadedlocalStorage = localStorage.getItem("MIStorage");
+    loadedlocalStorage = localStorage.getItem("MIStorage");
 
-  if (loadedlocalStorage == null) {
-    getNewMoreInfo(id, minuteClicked);
-  } else {
-    loadedlocalStorageArr = JSON.parse(loadedlocalStorage);
-    var isInLS = searchInLS(id);
-    if (isInLS == false) {
+    if (loadedlocalStorage == null) {
       getNewMoreInfo(id, minuteClicked);
     } else {
-      var location = isInLS;
-      var lastclicked = loadedlocalStorageArr[location].time;
-      var timePassed = minuteClicked - lastclicked;
+      loadedlocalStorageArr = JSON.parse(loadedlocalStorage);
+      var isInLS = searchInLS(id);
+      if (isInLS == false) {
+        getNewMoreInfo(id, minuteClicked);
+      } else {
+        var location = isInLS;
+        var lastclicked = loadedlocalStorageArr[location].time;
+        var timePassed = minuteClicked - lastclicked;
 
-      if (timePassed <= 120000) {
-        $(`#MI_${loadedlocalStorageArr[location].coinId}`)
-          .html(`<div class="d-flex justify-content-center"><ul id="CUL_${
-          loadedlocalStorageArr[location].coinId
-        }" class="list-group list-group-flush">
+        if (timePassed <= 120000) {
+          $(`#MI_${loadedlocalStorageArr[location].coinId}`)
+            .html(`<div class="d-flex justify-content-center"><ul id="CUL_${
+            loadedlocalStorageArr[location].coinId
+          }" class="list-group list-group-flush">
             <li class="list-group-item more-info-item" id="CVILS_${
               loadedlocalStorageArr[location].coinId
             }">ILS: ${loadedlocalStorageArr[location].ils} &#8362;</li>
@@ -182,251 +181,263 @@ $(document).on("click", ".more-info-btn", function(element) {
               loadedlocalStorageArr[location].coinId
             }">EUR: ${loadedlocalStorageArr[location].eur} &#128;</li>
           </ul></div>`);
-        $(`#MI_${loadedlocalStorageArr[location].coinId}`).show();
+          $(`#MI_${loadedlocalStorageArr[location].coinId}`).show();
+        } else {
+          updateMI(id, minuteClicked);
+        }
+      }
+    }
+  });
+
+  function updateMI(id, minuteClicked) {
+    $.ajax({
+      url: `https://api.coingecko.com/api/v3/coins/${id}`,
+      type: "GET",
+      success: function(response) {
+        $(`#MI_${response.id}`)
+          .html(`<div class="d-flex justify-content-center"><ul id="CUL_${
+          response.id
+        }" class="list-group list-group-flush">
+            <li class="list-group-item more-info-item" id="CVILS_${
+              response.id
+            }">ILS: ${response.market_data.current_price.ils} &#8362;</li>
+            <li class="list-group-item more-info-item" id="CVUSD_${
+              response.id
+            }">USD: ${response.market_data.current_price.usd} &#36;</li>
+            <li class="list-group-item more-info-item" id="CVEUR_${
+              response.id
+            }">EUR: ${response.market_data.current_price.eur} &#128;</li>
+          </ul></div>`);
+      }
+    });
+  }
+
+  function searchInLS(id) {
+    let counter = 0;
+    for (counter = 0; counter < loadedlocalStorageArr.length; counter++) {
+      if (loadedlocalStorageArr[counter].coinId == id) {
+        console.log("the adress in the arr: " + counter);
+        return counter;
+      }
+    }
+    counter = false;
+    return counter;
+  }
+
+  function getNewMoreInfo(id, minuteClicked) {
+    $.ajax({
+      url: `https://api.coingecko.com/api/v3/coins/${id}`,
+      type: "GET",
+      success: function(response) {
+        $(`#MI_${response.id}`)
+          .html(`<div class="d-flex justify-content-center"><ul id="CUL_${
+          response.id
+        }" class="list-group list-group-flush">
+            <li class="list-group-item more-info-item" id="CVILS_${
+              response.id
+            }">ILS: ${response.market_data.current_price.ils} &#8362;</li>
+            <li class="list-group-item more-info-item" id="CVUSD_${
+              response.id
+            }">USD: ${response.market_data.current_price.usd} &#36;</li>
+            <li class="list-group-item more-info-item" id="CVEUR_${
+              response.id
+            }">EUR: ${response.market_data.current_price.eur} &#128;</li>
+          </ul></div>`);
+
+        newCuInfo = {
+          coinId: response.id,
+          coinSymbol: response.symbol,
+          coinName: response.name,
+          time: minuteClicked,
+          ils: response.market_data.current_price.ils,
+          usd: response.market_data.current_price.usd,
+          eur: response.market_data.current_price.eur
+        };
+
+        // storedInfoArr[index] = newCuInfo;
+        storedInfoArr.push(newCuInfo);
+        console.log(`to storage:  + ${newCuInfo.coinId}`);
+        console.log(newCuInfo.time);
+        console.log(newCuInfo.ils);
+        console.log(newCuInfo.usd);
+        console.log(newCuInfo.eur);
+        localStorage.setItem("MIStorage", JSON.stringify(storedInfoArr));
+        // return newCuInfo;
+      }
+    });
+  }
+
+  /************ end more info ***********/
+
+  /************* click on card toggle *************/
+  $(document).on("click", ".custom-control-input", function(element) {
+    let id = $(this).attr("data-coinName");
+    let isChecked = $(`#cardToggle_${id}`).is(":checked");
+    let isFromModal = $(this).hasClass("modal-switch");
+    modalInputSize = checkModalInputLength(id);
+    modalInput = localStorage.getItem("dataForChart");
+
+    console.log("id from click on cardtoggle: " + id);
+    console.log("isChecked from click on card: " + isChecked);
+    console.log("isFromModal from click on cardtoggle: " + isFromModal);
+    console.log("modalInputSize from click on cardtoggle: " + modalInputSize);
+    console.log("modalInput from click on cardtoggle: " + modalInput);
+    if (modalInput == null) {
+      modalInput.push(id);
+    }
+    if (isFromModal) {
+      if ($(`#modalSwitches${id}`).is(":checked")) {
+        $(`#cardToggle_${id}`).prop("checked", true);
+      }
+      if ($(`#modalSwitches${id}`).is(":checked") == false) {
+        $(`#cardToggle_${id}`).prop("checked", false);
+      }
+    } else {
+      switch (modalInputSize) {
+        case "small":
+          if (isChecked) {
+            modalAdd(id);
+          } else {
+            modalRed(id);
+          }
+          break;
+        case "six":
+          modalAdd(id);
+          printModalBody();
+          $("#myModal").modal("show");
+          break;
+
+        case "big":
+          $("#myModal").modal("show");
+          $(`#cardToggle_${id}`).prop("checked", false);
+          break;
+        default:
+          break;
+      }
+    }
+    console.log("modalInput from click on card: " + modalInput);
+    console.log("type of modalInput from click on card: " + typeof modalInput);
+
+    localStorage.setItem("dataForChart", modalInput);
+  });
+
+  /************* end click on card toggle *************/
+
+  /**************  click on modal toggles **************/
+  $(document).on("click", ".modal-switch", function(element) {
+    modalInput = localStorage.getItem("dataForChart");
+    let id = $(this).attr("data-coinName");
+    let isChecked = $(`#modalSwitches${id}`).is(":checked");
+    console.log("id: " + id);
+    console.log("isChecked: " + isChecked);
+    if (modalInput == null) {
+      modalInput.push(id);
+    }
+    if (isChecked == false) {
+      modalRed(id, modalInput);
+    } else {
+      modalAdd(id, modalInput);
+    }
+    console.log("from click on modal toggle: " + modalInput);
+  });
+  /**************  end click on modal toggles **************/
+
+  /**************   click on modal buttons **************/
+
+  $(document).on("click", ".modalSaveAndGoBtn", function() {
+    $("#home").load("./livereports.html ");
+  });
+
+  $(document).on("show", "#myModal", function(element) {
+    modalInput = localStorage.getItem("dataForChart");
+    printModalBody(modalInput);
+  });
+  $(document).on("click", ".modal-open", function(element) {
+    modalInput = localStorage.getItem("dataForChart");
+    printModalBody(modalInput);
+  });
+
+  $(document).on("hide.bs.modal", "#myModal", function(element) {
+    // let
+    modalInputSize = checkModalInputLength();
+
+    if (modalInputSize == "big") {
+      alert("please uncheck at least one of the coins");
+      element.preventDefault();
+    }
+    // console.log("modalInput from before hide model: " + modalInput);
+    // localStorage.setItem("dataForChart", JSON.stringify(modalInput));
+  });
+
+  /**************  end click on modal buttons **************/
+
+  /************** card-modal functions *****************/
+
+  function modalAdd(id, modalInput) {
+    var coinsearch = id;
+    var isCoinInArr = "";
+    for (let index = 0; index < modalInput.length; index++) {
+      if (modalInput[index] == coinsearch) {
+        isCoinInArr = true;
       } else {
-        updateMI(id, minuteClicked);
+        isCoinInArr = true;
+      }
+      if (isCoinInArr == false) {
+        modalInput.push(id);
+        localStorage.setItem("dataForChart", modalInput);
       }
     }
   }
-});
 
-function updateMI(id, minuteClicked) {
-  $.ajax({
-    url: `https://api.coingecko.com/api/v3/coins/${id}`,
-    type: "GET",
-    success: function(response) {
-      $(`#MI_${response.id}`)
-        .html(`<div class="d-flex justify-content-center"><ul id="CUL_${
-        response.id
-      }" class="list-group list-group-flush">
-            <li class="list-group-item more-info-item" id="CVILS_${
-              response.id
-            }">ILS: ${response.market_data.current_price.ils} &#8362;</li>
-            <li class="list-group-item more-info-item" id="CVUSD_${
-              response.id
-            }">USD: ${response.market_data.current_price.usd} &#36;</li>
-            <li class="list-group-item more-info-item" id="CVEUR_${
-              response.id
-            }">EUR: ${response.market_data.current_price.eur} &#128;</li>
-          </ul></div>`);
-    }
-  });
-}
+  function modalRed(id, modalInput) {
+    var coinsearch = id;
 
-function searchInLS(id) {
-  let counter = 0;
-  for (counter = 0; counter < loadedlocalStorageArr.length; counter++) {
-    if (loadedlocalStorageArr[counter].coinId == id) {
-      console.log("the adress in the arr: " + counter);
-      return counter;
+    for (let index = 0; index < modalInput.length; index++) {
+      if (modalInput[index] == coinsearch) {
+        modalInput.splice(index, 1);
+        localStorage.setItem("dataForChart", modalInput);
+      }
     }
   }
-  counter = false;
-  return counter;
-}
 
-function getNewMoreInfo(id, minuteClicked) {
-  $.ajax({
-    url: `https://api.coingecko.com/api/v3/coins/${id}`,
-    type: "GET",
-    success: function(response) {
-      $(`#MI_${response.id}`)
-        .html(`<div class="d-flex justify-content-center"><ul id="CUL_${
-        response.id
-      }" class="list-group list-group-flush">
-            <li class="list-group-item more-info-item" id="CVILS_${
-              response.id
-            }">ILS: ${response.market_data.current_price.ils} &#8362;</li>
-            <li class="list-group-item more-info-item" id="CVUSD_${
-              response.id
-            }">USD: ${response.market_data.current_price.usd} &#36;</li>
-            <li class="list-group-item more-info-item" id="CVEUR_${
-              response.id
-            }">EUR: ${response.market_data.current_price.eur} &#128;</li>
-          </ul></div>`);
+  function checkModalInputLength(id) {
+    modalInput = localStorage.getItem("dataForChart");
 
-      newCuInfo = {
-        coinId: response.id,
-        coinSymbol: response.symbol,
-        coinName: response.name,
-        time: minuteClicked,
-        ils: response.market_data.current_price.ils,
-        usd: response.market_data.current_price.usd,
-        eur: response.market_data.current_price.eur
-      };
-
-      // storedInfoArr[index] = newCuInfo;
-      storedInfoArr.push(newCuInfo);
-      console.log(`to storage:  + ${newCuInfo.coinId}`);
-      console.log(newCuInfo.time);
-      console.log(newCuInfo.ils);
-      console.log(newCuInfo.usd);
-      console.log(newCuInfo.eur);
-      localStorage.setItem("MIStorage", JSON.stringify(storedInfoArr));
-      // return newCuInfo;
-    }
-  });
-}
-
-/************ end more info ***********/
-
-/************* click on card toggle *************/
-$(document).on("click", ".custom-control-input", function(element) {
-  let id = $(this).attr("data-coinName");
-  let isChecked = $(`#cardToggle_${id}`).is(":checked");
-  let isFromModal = $(this).hasClass("modal-switch");
-  modalInputSize = checkModalInputLength(id);
-  modalInput = localStorage.getItem("dataForChart");
-
-  console.log("id from click on cardtoggle: " + id);
-  console.log("isChecked from click on card: " + isChecked);
-  console.log("isFromModal from click on cardtoggle: " + isFromModal);
-  console.log("modalInputSize from click on cardtoggle: " + modalInputSize);
-  console.log("modalInput from click on cardtoggle: " + modalInput);
-
-  if (isFromModal) {
-    if ($(`#modalSwitches${id}`).is(":checked")) {
-      $(`#cardToggle_${id}`).prop("checked", true);
-    }
-    if ($(`#modalSwitches${id}`).is(":checked") == false) {
-      $(`#cardToggle_${id}`).prop("checked", false);
-    }
-  } else {
-    switch (modalInputSize) {
-      case "small":
-        if (isChecked) {
-          modalAdd(id);
-        } else {
-          modalRed(id);
-        }
-        break;
-      case "six":
-        modalAdd(id);
-        printModalBody();
-        $("#myModal").modal("show");
-        break;
-
-      case "big":
-        $("#myModal").modal("show");
-        $(`#cardToggle_${id}`).prop("checked", false);
-        break;
-      default:
-        break;
-    }
-  }
-  console.log("modalInput from click on card: " + modalInput);
-  console.log("type of modalInput from click on card: " + typeof modalInput);
-
-  localStorage.setItem("dataForChart", modalInput);
-});
-
-/************* end click on card toggle *************/
-
-/**************  click on modal toggles **************/
-$(document).on("click", ".modal-switch", function(element) {
-  modalInput = localStorage.getItem("dataForChart");
-  let id = $(this).attr("data-coinName");
-  let isChecked = $(`#modalSwitches${id}`).is(":checked");
-  console.log("id: " + id);
-
-  console.log("isChecked: " + isChecked);
-  if (isChecked == false) {
-    modalRed(id);
-  } else {
-    modalAdd(id);
-  }
-  console.log("from click on modal toggle: " + modalInput);
-});
-/**************  end click on modal toggles **************/
-
-/**************   click on modal buttons **************/
-
-$(document).on("click", ".modalSaveAndGoBtn", function(element) {
-  $("#home").load("./livereports.html ");
-});
-
-$(document).on("show", "#myModal", function(element) {
-  printModalBody();
-});
-$(document).on("click", ".modal-open", function(element) {
-  printModalBody();
-});
-
-$(document).on("hide.bs.modal", "#myModal", function(element) {
-  // let
-  modalInputSize = checkModalInputLength(element);
-
-  if (modalInputSize == "big") {
-    alert("please uncheck at least one of the coins");
-    element.preventDefault();
-  }
-  console.log("modalInput from before hide model: " + modalInput);
-  localStorage.setItem("dataForChart", JSON.stringify(modalInput));
-});
-
-/**************  end click on modal buttons **************/
-
-/************** card-modal functions *****************/
-
-function modalAdd(id) {
-  var coinsearch = id;
-  var isCoinInArr = "";
-  // modalInput.forEach(function(item, counter) {}
-  for (let index = 0; index < modalInput.length; index++) {
-    if (modalInput[index] == coinsearch) {
-      isCoinInArr = true;
-    } else {
-      isCoinInArr = true;
-    }
-    if (isCoinInArr == false) {
+    if (modalInput == null) {
       modalInput.push(id);
     }
-  }
-}
 
-function modalRed(id) {
-  var coinsearch = id;
-
-  // modalInput.forEach(function(item, counter) {}
-  for (let index = 0; index < modalInput.length; index++) {
-    if (modalInput[index] == coinsearch) {
-      modalInput.splice(index, 1);
+    if (modalInput.length < 5) {
+      return "small";
+    }
+    if (modalInput.length == 5) {
+      return "six";
+    }
+    if (modalInput.length > 5) {
+      return "big";
     }
   }
-}
 
-function checkModalInputLength(id) {
-  if (modalInput.length < 5) {
-    return "small";
-  }
-  if (modalInput.length == 5) {
-    return "six";
-  }
-  if (modalInput.length > 5) {
-    return "big";
-  }
-}
+  function printModalBody(modalInput) {
+    // modalInput = localStorage.getItem("dataForChart");
 
-function printModalBody() {
-  modalInput = localStorage.getItem("dataForChart");
+    $("#modal-body-container").html(" ");
+    $("#modal-footer-container").html(" ");
+    console.log("modalInput: " + modalInput);
+    console.log("type of modalInput: " + typeof modalInput);
 
-  $("#modal-body-container").html(" ");
-  $("#modal-footer-container").html(" ");
-  console.log("modalInput: " + modalInput);
-  console.log("type of modalInput: " + typeof modalInput);
-
-  for (let index = 0; index < modalInput.length; index++) {
-    if (index <= 4) {
-      $("#modal-body-container").append(`
+    for (let index = 0; index < modalInput.length; index++) {
+      if (index <= 4) {
+        $("#modal-body-container").append(`
       <div class="row">
       <div class="custom-control${modalInput[index]} custom-switch${
-        modalInput[index]
-      } modal-switch${modalInput[index]} col-sm-12">
+          modalInput[index]
+        } modal-switch${modalInput[index]} col-sm-12">
       <input type="checkbox" class="custom-control-input${
         modalInput[index]
       } modal-switch${modalInput[index]}" data-coinName="${
-        modalInput[index]
-      }" id="modalSwitches${modalInput[index]}">
+          modalInput[index]
+        }" id="modalSwitches${modalInput[index]}">
       <label class="custom-control-label${
         modalInput[index]
       }" for="modalSwitches${modalInput[index]}">${modalInput[index]}</label>
@@ -434,232 +445,232 @@ function printModalBody() {
       </div>
       </div> 
          `);
-      $(`#modalSwitches${modalInput[index]}`).prop("checked", true);
-    } else {
-      $("#modal-footer-container").append(`
+        $(`#modalSwitches${modalInput[index]}`).prop("checked", true);
+      } else {
+        $("#modal-footer-container").append(`
       <div class="row">
       <div class="custom-control${modalInput[index]} custom-switch${
-        modalInput[index]
-      } modal-switch${modalInput[index]} col-sm-12">
+          modalInput[index]
+        } modal-switch${modalInput[index]} col-sm-12">
       <input type="checkbox" class="custom-control-input${
         modalInput[index]
       } modal-switch" data-coinName="${modalInput[index]}" id="modalSwitches${
-        modalInput[index]
-      }">
+          modalInput[index]
+        }">
       <label class="custom-control-label${
         modalInput[index]
       }" for="modalSwitches${modalInput[index]}">last coin picked: ${
-        modalInput[index]
-      }</label>
+          modalInput[index]
+        }</label>
       </div>
       </div>       
          `);
-      $(`#modalSwitches${modalInput[index]}`).prop("checked", true);
+        $(`#modalSwitches${modalInput[index]}`).prop("checked", true);
+      }
     }
   }
-}
-
+});
 /************** end card-modal functions *****************/
 
 /* start live report */
-var chart = new CanvasJS.Chart("chartContainer");
+// var chart = new CanvasJS.Chart("chartContainer");
 
-function creatChart() {
-  var options = {
-    exportEnabled: true,
-    animationEnabled: true,
-    title: {
-      text: "coins:  price in USD"
-    },
-    subtitles: [
-      {
-        text: "Click Legend to Hide or Unhide Data Series"
-      }
-    ],
-    axisX: {
-      title: "Time",
-      valueFormatString: "DDD HH:mm:ss"
-    },
-    axisY: {
-      valueFormatString: "$#,###,#0",
-      title: "Coins Value in USD",
-      titleFontColor: "#4F81BC",
-      lineColor: "#4F81BC",
-      labelFontColor: "#4F81BC",
-      tickColor: "#4F81BC",
-      includeZero: false
-    },
-    toolTip: {
-      shared: true
-    },
-    legend: {
-      cursor: "pointer",
-      itemclick: toggleDataSeries
-    },
-    data: dataSeries
-  };
+// function creatChart() {
+//   var options = {
+//     exportEnabled: true,
+//     animationEnabled: true,
+//     title: {
+//       text: "coins:  price in USD"
+//     },
+//     subtitles: [
+//       {
+//         text: "Click Legend to Hide or Unhide Data Series"
+//       }
+//     ],
+//     axisX: {
+//       title: "Time",
+//       valueFormatString: "DDD HH:mm:ss"
+//     },
+//     axisY: {
+//       valueFormatString: "$#,###,#0",
+//       title: "Coins Value in USD",
+//       titleFontColor: "#4F81BC",
+//       lineColor: "#4F81BC",
+//       labelFontColor: "#4F81BC",
+//       tickColor: "#4F81BC",
+//       includeZero: false
+//     },
+//     toolTip: {
+//       shared: true
+//     },
+//     legend: {
+//       cursor: "pointer",
+//       itemclick: toggleDataSeries
+//     },
+//     data: dataSeries
+//   };
 
-  $("#chartContainer").CanvasJS.chart(options);
+//   $("#chartContainer").CanvasJS.chart(options);
 
-  function toggleDataSeries(e) {
-    if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
-      e.dataSeries.visible = false;
-    } else {
-      e.dataSeries.visible = true;
-    }
-    e.chart.render();
-  }
-}
+//   function toggleDataSeries(e) {
+//     if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
+//       e.dataSeries.visible = false;
+//     } else {
+//       e.dataSeries.visible = true;
+//     }
+//     e.chart.render();
+//   }
+// }
 
-function updateChartData() {
-  // updateChartData();
-  var modalInputToSend = [];
+// function updateChartData() {
+//   // updateChartData();
+//   var modalInputToSend = [];
 
-  modalInput.forEach(element => {
-    modalInputToSend.push(element.toString().toUpperCase());
-  });
+//   modalInput.forEach(element => {
+//     modalInputToSend.push(element.toString().toUpperCase());
+//   });
 
-  var adress = modalInputToSend.toString();
-  $.ajax({
-    url: `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${adress}&tsyms=USD`,
-    type: "GET",
-    success: function(response) {
-      var time = new Date();
-      var index = 0;
-      console.log("response values: " + Object.values(response));
-      console.log("response keys: " + Object.keys(response).usd);
-      Object.keys(response).forEach(function(element) {
-        dataSeries.push({
-          type: "spline",
-          name: element,
-          showInLegend: true,
-          xValueFormatString: "DDD HH:mm:ss",
-          yValueFormatString: "#,##0 Units",
-          dataPoints: [{ x: time, y: response[element].USD }]
-        });
+//   var adress = modalInputToSend.toString();
+//   $.ajax({
+//     url: `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${adress}&tsyms=USD`,
+//     type: "GET",
+//     success: function(response) {
+//       var time = new Date();
+//       var index = 0;
+//       console.log("response values: " + Object.values(response));
+//       console.log("response keys: " + Object.keys(response).usd);
+//       Object.keys(response).forEach(function(element) {
+//         dataSeries.push({
+//           type: "spline",
+//           name: element,
+//           showInLegend: true,
+//           xValueFormatString: "DDD HH:mm:ss",
+//           yValueFormatString: "#,##0 Units",
+//           dataPoints: [{ x: time, y: response[element].USD }]
+//         });
 
-        Object.keys(response).forEach(function(element) {
-          dataSeries[index].dataPoints.push({
-            x: time,
-            y: response[element].USD
-          });
-          index++;
-        });
-      });
-      chart.render();
-      console.log("liveReportData: " + liveReportData);
-    }
-  });
-  console.log("modal input from update chart :" + modalInputToSend);
-  console.log("modal input from update chart :" + typeof modalInputToSend);
-  console.log("adress from update chart :" + adress);
-  console.log("adress from update chart :" + typeof adress);
-}
+//         Object.keys(response).forEach(function(element) {
+//           dataSeries[index].dataPoints.push({
+//             x: time,
+//             y: response[element].USD
+//           });
+//           index++;
+//         });
+//       });
+//       chart.render();
+//       console.log("liveReportData: " + liveReportData);
+//     }
+//   });
+//   console.log("modal input from update chart :" + modalInputToSend);
+//   console.log("modal input from update chart :" + typeof modalInputToSend);
+//   console.log("adress from update chart :" + adress);
+//   console.log("adress from update chart :" + typeof adress);
+// }
 // setInterval(updateChartData, 2000);
 
 /* end live report*/
 
 /*compare API's - slows everything*/
 /* this one mightwork*/
-function GetCoinsWithAjaxTo3API() {
-  $.ajax({
-    url: "https://api.coingecko.com/api/v3/coins/list",
-    type: "GET",
-    success: function(response) {
-      var count = 0;
-      response.forEach(function(element) {
-        var coinSymbol = element.symbol.toUpperCase();
-        $.ajax({
-          url: `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${coinSymbol}&tsyms=USD`,
-          type: "GET",
+// function GetCoinsWithAjaxTo3API() {
+//   $.ajax({
+//     url: "https://api.coingecko.com/api/v3/coins/list",
+//     type: "GET",
+//     success: function(response) {
+//       var count = 0;
+//       response.forEach(function(element) {
+//         var coinSymbol = element.symbol.toUpperCase();
+//         $.ajax({
+//           url: `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${coinSymbol}&tsyms=USD`,
+//           type: "GET",
 
-          success: function(data) {
-            if (data.Response !== "Error") {
-              $("#home").append(
-                `<div class="card col-sm-6 col-md-3 col-lg-3">
-                                     <div class="card-body">
-                                      <div class="custom-control custom-switch">
-                                          <input type="checkbox" class="custom-control-input" data-coinName="${
-                                            element.id
-                                          }" id="customSwitches${element.id}">
-                                      <label class="custom-control-label" for="customSwitches${
-                                        element.id
-                                      }"></label>
-                        </div>
-                                        <h5 class="card-title">${
-                                          element.symbol
-                                        }</h5>
-                                        <p class="card-text">${element.name}</p>
-                                        <button type="button" class="btn btn-info btn-block more-info-btn" data-toggle="collapse" data-target="#MI_${
-                                          element.id
-                                        }">more info</button>
-                                       <div id="MI_${
-                                         element.id
-                                       }" class="collapse">
-                                          <div class="d-flex justify-content-center">
-                                            <div id="CSD_${
-                                              element.id
-                                            }" class="spinner-border" role="status">
-                                              <span class="sr-only">Loading...</span>
-                                            </div>
-                                            </div>
-                                            </div>
-                                          </div>
-                                   </div>`
-              );
-            }
-          },
-          error: function(dat) {
-            console.log("dat: " + dat);
-          }
-        });
-      });
-    }
-  });
-}
-function checkIfIn3APIFunc(response) {
-  var coinSymbol;
-  response.forEach(function(element, index) {
-    coinSymbol = element.symbol.toUpperCase();
-    console.log(coinSymbol);
-    $.ajax({
-      url: `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${coinSymbol}&tsyms=USD`,
-      type: "GET",
-      async: false,
-      success: successCallBack,
-      error: failCallBack
-    });
-    if (checkIfIn3API == true) {
-      goodCoinsToPrint.push(element);
-    }
-  });
-}
-function successCallBack(response) {
-  var isIn3API;
-  var paresedArr = Object.values(response);
-  if (paresedArr[0] == "Error") {
-    console.log("error");
-    isIn3API = false;
-    console.log(
-      "not in 3 api: checkifin3api : " + isIn3API + "coinSymbols: " + coinSymbol
-    );
-  } else {
-    console.log("no error");
-    isIn3API = true;
+//           success: function(data) {
+//             if (data.Response !== "Error") {
+//               $("#home").append(
+//                 `<div class="card col-sm-6 col-md-3 col-lg-3">
+//                                      <div class="card-body">
+//                                       <div class="custom-control custom-switch">
+//                                           <input type="checkbox" class="custom-control-input" data-coinName="${
+//                                             element.id
+//                                           }" id="customSwitches${element.id}">
+//                                       <label class="custom-control-label" for="customSwitches${
+//                                         element.id
+//                                       }"></label>
+//                         </div>
+//                                         <h5 class="card-title">${
+//                                           element.symbol
+//                                         }</h5>
+//                                         <p class="card-text">${element.name}</p>
+//                                         <button type="button" class="btn btn-info btn-block more-info-btn" data-toggle="collapse" data-target="#MI_${
+//                                           element.id
+//                                         }">more info</button>
+//                                        <div id="MI_${
+//                                          element.id
+//                                        }" class="collapse">
+//                                           <div class="d-flex justify-content-center">
+//                                             <div id="CSD_${
+//                                               element.id
+//                                             }" class="spinner-border" role="status">
+//                                               <span class="sr-only">Loading...</span>
+//                                             </div>
+//                                             </div>
+//                                             </div>
+//                                           </div>
+//                                    </div>`
+//               );
+//             }
+//           },
+//           error: function(dat) {
+//             console.log("dat: " + dat);
+//           }
+//         });
+//       });
+//     }
+//   });
+// }
+// function checkIfIn3APIFunc(response) {
+//   var coinSymbol;
+//   response.forEach(function(element, index) {
+//     coinSymbol = element.symbol.toUpperCase();
+//     console.log(coinSymbol);
+//     $.ajax({
+//       url: `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${coinSymbol}&tsyms=USD`,
+//       type: "GET",
+//       async: false,
+//       success: successCallBack,
+//       error: failCallBack
+//     });
+//     if (checkIfIn3API == true) {
+//       goodCoinsToPrint.push(element);
+//     }
+//   });
+// }
+// function successCallBack(response) {
+//   var isIn3API;
+//   var paresedArr = Object.values(response);
+//   if (paresedArr[0] == "Error") {
+//     console.log("error");
+//     isIn3API = false;
+//     console.log(
+//       "not in 3 api: checkifin3api : " + isIn3API + "coinSymbols: " + coinSymbol
+//     );
+//   } else {
+//     console.log("no error");
+//     isIn3API = true;
 
-    console.log(
-      "is in 3 api: checkifin3api : " + isIn3API + "coinSymbols: " + coinSymbols
-    );
-  }
-  checkIfIn3API = isIn3API;
-  if (checkIfIn3API == true) {
-    console.log("checkIfIn3API from successCallBack: " + checkIfIn3API);
-  }
-  // console.log(response);
-  // console.log("paresedArr: " + paresedArr);
-  // console.log("storedResponse: " + storedResponse);
-}
-function failCallBack(response) {
-  console.log("failCallBack: " + response);
-}
+//     console.log(
+//       "is in 3 api: checkifin3api : " + isIn3API + "coinSymbols: " + coinSymbols
+//     );
+//   }
+//   checkIfIn3API = isIn3API;
+//   if (checkIfIn3API == true) {
+//     console.log("checkIfIn3API from successCallBack: " + checkIfIn3API);
+//   }
+//   // console.log(response);
+//   // console.log("paresedArr: " + paresedArr);
+//   // console.log("storedResponse: " + storedResponse);
+// }
+// function failCallBack(response) {
+//   console.log("failCallBack: " + response);
+// }
 /*end compare API's*/
