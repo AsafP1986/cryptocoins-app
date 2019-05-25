@@ -1,44 +1,63 @@
+#header {
+  width: 100%;
+  margin-top: 0;
+  margin: 10px auto;
+  max-width: 1024px;
+  position: fixed;
+  right: 0;
+  top: 50px;
+  z-index: 1;
+  background-color: white;
+  border-bottom: double 3px black;
+  border-top: solid 3px black;
+}
+
+#home {
+  margin: 100px;
+  max-width: 1024px;
+  padding-top: 150px;
+  /* position: relative; */
+  /* padding-left: 100px; */
+}
+
 .card {
   float: left;
-  padding: 5px;
-  border: 0;
+  /* padding: 5px; */
+  margin: 5px;
+  border: 3px solid silver;
   background-color: white;
   position: relative;
   height: 200px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.card-title {
+  overflow: auto;
+  width: 100%;
+  font-size: 18pt;
 }
 .card-text {
   overflow: auto;
   width: 100%;
-  font-size: 14pt;
-}
-.cardToggle {
-  position: absolute;
-  right: 100px;
-}
-.card-body {
-  border: 30px;
-  border-color: black;
-  padding: 5px;
-  background-color: white;
-}
-.custom-switch {
-  position: relative;
-}
-
-.custom-control-label {
-  position: absolute;
-  left: 210px;
+  font-size: 16pt;
 }
 .moreInfo {
   position: absolute;
-  top: 100px;
-  right: 20px;
-  left: 20px;
-  width: 200px;
+  top: 85px;
+  left: 10px;
+  width: 90%;
   height: 100px;
-  border: 3px solid #73ad21;
+  border: 3px solid black;
   background-color: white;
   padding: 5px;
+}
+.custom-control-input {
+  position: absolute;
+  /* right: 90px auto; */
+  z-index: 1;
+}
+.custom-control-label {
+  position: absolute;
+  left: 200px;
 }
 
 #backgroundPic {
@@ -50,19 +69,6 @@
   background-size: cover;
   z-index: -1;
 }
-/* #content { //deleted from index.html
-  padding: 50px;
-} */
-
-#header {
-  width: 100%;
-  margin-top: 0;
-  margin: 10px auto;
-  max-width: 1024px;
-  position: fixed;
-  z-index: 1;
-  background-color: white;
-}
 .media {
   width: 100%;
   padding: 0;
@@ -72,32 +78,12 @@
   padding-top: 15px;
 }
 
-#home {
-  margin: 10px;
-  max-width: 1024px;
-  padding-top: 150px;
-  padding-left: 100px;
-}
-
 #searchBtn {
   margin-left: 20px;
+  border: 1px solid black;
 }
 .searchTabs {
-  margin-left: 180px;
-}
-
-.nav-container {
-  width: 100%;
-}
-#navs {
-  margin: 10px;
-  z-index: 2;
-  border: black;
-}
-
-.navbar-nav {
-  background-color: white;
-  border-color: black;
+  margin-left: 200px;
 }
 .nav-link {
   font-size: 14pt;
@@ -112,8 +98,6 @@
 
 #aboutDiv {
   width: 100%;
-  background-color: black;
-
   font-size: 24pt;
   padding: 8px;
 }
@@ -125,27 +109,24 @@
 .modal-row {
   border-color: black;
 }
-#alertModalInputBig {
-  text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 17pt;
-  color: rgb(213, 71, 71);
-}
 
 .modal-title {
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 14pt;
-  color: rgb(125, 181, 225);
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 16pt;
+  color: rgb(227, 189, 66);
 }
-.btn-info {
+#alertModalInputBig {
+  text-align: center;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 14pt;
+  color: rgb(183, 197, 207);
+}
+
+.btn-secondary {
   margin: 3px;
 }
 #modalCloseIcon {
   float: left;
   border-color: blue;
 }
-
-/* h3 {
-  display: none;
-} */
