@@ -15,6 +15,7 @@ var index = 0;
 var i = "";
 var modalInput = [];
 var modalInputSize = "";
+var modalInput = "";
 var storedResponse = [];
 var coinSymbols = [];
 var checkIfIn3API = new Boolean();
@@ -26,8 +27,7 @@ var dataSeries = [];
 // storedResponse = getCoins();
 // checkIfIn3APIFunc(storedResponse);
 $(document).ready(function() {
-  storedResponse = getCoins();
-  localStorage.setItem("storedResponse", JSON.stringify(storedResponse));
+  getCoins();
   $(".moreInfo").hide();
 });
 
@@ -307,6 +307,8 @@ $(document).on("click", ".custom-control-input", function(element) {
         break;
     }
   }
+  console.log("modalInput from click on card: " + modalInput);
+  console.log("type of modalInput from click on card: " + typeof modalInput);
 
   localStorage.setItem("dataForChart", JSON.stringify(modalInput));
 });
@@ -349,6 +351,7 @@ $(document).on("hide.bs.modal", "#myModal", function(element) {
     alert("please uncheck at least one of the coins");
     element.preventDefault();
   }
+  console.log("modalInput from before hide model: " + modalInput);
   localStorage.setItem("dataForChart", JSON.stringify(modalInput));
 });
 
@@ -395,32 +398,54 @@ function checkModalInputLength(id) {
 
 function printModalBody() {
   modalInput = localStorage.getItem("dataForChart");
-  var modalInputParsed = JSON.parse(modalInput);
+
   $("#modal-body-container").html(" ");
   $("#modal-footer-container").html(" ");
-  modalInputParsed.forEach(function(item, counter) {
-    if (counter <= 4) {
+  console.log("modalInput: " + modalInput);
+  console.log("type of modalInput: " + typeof modalInput);
+
+  for (let index = 0; index < modalInput.length; index++) {
+    if (index <= 4) {
       $("#modal-body-container").append(`
       <div class="row">
-      <div class="custom-control${item} custom-switch${item} modal-switch${item} col-sm-12">
-      <input type="checkbox" class="custom-control-input${item} modal-switch${item}" data-coinName="${item}" id="modalSwitches${item}">
-      <label class="custom-control-label${item}" for="modalSwitches${item}">${item}</label>
+      <div class="custom-control${modalInput[index]} custom-switch${
+        modalInput[index]
+      } modal-switch${modalInput[index]} col-sm-12">
+      <input type="checkbox" class="custom-control-input${
+        modalInput[index]
+      } modal-switch${modalInput[index]}" data-coinName="${
+        modalInput[index]
+      }" id="modalSwitches${modalInput[index]}">
+      <label class="custom-control-label${
+        modalInput[index]
+      }" for="modalSwitches${modalInput[index]}">${modalInput[index]}</label>
            
       </div>
       </div> 
          `);
+      $(`#modalSwitches${modalInput[index]}`).prop("checked", true);
     } else {
       $("#modal-footer-container").append(`
       <div class="row">
-      <div class="custom-control${item} custom-switch${item} modal-switch${item} col-sm-12">
-      <input type="checkbox" class="custom-control-input${item} modal-switch" data-coinName="${item}" id="modalSwitches${item}">
-      <label class="custom-control-label${item}" for="modalSwitches${item}">last coin picked: ${item}</label>
+      <div class="custom-control${modalInput[index]} custom-switch${
+        modalInput[index]
+      } modal-switch${modalInput[index]} col-sm-12">
+      <input type="checkbox" class="custom-control-input${
+        modalInput[index]
+      } modal-switch" data-coinName="${modalInput[index]}" id="modalSwitches${
+        modalInput[index]
+      }">
+      <label class="custom-control-label${
+        modalInput[index]
+      }" for="modalSwitches${modalInput[index]}">last coin picked: ${
+        modalInput[index]
+      }</label>
       </div>
       </div>       
          `);
+      $(`#modalSwitches${modalInput[index]}`).prop("checked", true);
     }
-    $(`#modalSwitches${item}`).prop("checked", true);
-  });
+  }
 }
 
 /************** end card-modal functions *****************/
