@@ -60,6 +60,34 @@
           </div>
         </div>
       </div>
+      <div id="operator">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p style="color: rgb(227, 189, 66); font-size: 16pt">please select coins for live report</p> 
+                </div>
+              </div>
+            <div class="row">
+              <div class="col-sm-12">
+                  <button
+                  type="button"
+                  class="btn btn-secondary btn-lg btn-block"
+                  data-toggle="modal"
+                  data-target="#myModal"
+                >change your picks</button> 
+              </div>
+              <div class="col-sm-12">
+                  <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-lg btn-block"
+                  data-dismiss="modal"
+                  id="modalSaveAndGoBtnModal"
+                >go to live reports</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div id="home" class="row"></div>
     </div>
 
@@ -83,8 +111,16 @@
               &times;
             </button>
           </div>
-          <div class="modal-body"></div>
-          <div class="modal-footer"></div>
+          <div class="modal-body">
+            <div class="container-fluid" id="modal-body-container">
+              
+            </div>
+          </div>
+          <div class="modal-footer">
+          <div class="container-fluid" id="modal-footer-container">
+            
+          </div>
+        </div>  
           <h5 id="alertModalInputBig">
             please uncheck atleast one of the coins
           </h5>

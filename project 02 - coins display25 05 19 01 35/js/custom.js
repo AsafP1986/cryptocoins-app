@@ -431,24 +431,25 @@ function checkModalInputLength(id) {
 }
 
 function printModalBody() {
-  $(".modal-body").html(" ");
-  $(".modal-footer").html(" ");
+  $("#modal-body-container").html(" ");
+  $("#modal-footer-container").html(" ");
   modalInput.forEach(function(item, counter) {
     if (counter <= 4) {
-      $(".modal-body").append(`
-      <div class="modal-row">
-      <div class="custom-control custom-switch modal-switch">
-         <input type="checkbox" class="custom-control-input modal-switch" data-coinName="${item}" id="modalSwitches${item}">
-         <label class="custom-control-label" for="modalSwitches${item}">${item}</label>  
+      $("#modal-body-container").append(`
+      <div class="row">
+      <div class="custom-control custom-switch modal-switch col-sm-12">
+      <label class="custom-control-label" for="modalSwitches${item}">${item}</label>
+         <input type="checkbox" class="custom-control-input modal-switch" data-coinName="${item}" id="modalSwitches${item}" data-target="toggle">
+           
       </div>
       </div> 
          `);
     } else {
-      $(".modal-footer").append(`
-      <div class="modal-row">
-      <div class="custom-control custom-switch modal-switch">
-         <input type="checkbox" class="custom-control-input modal-switch" data-coinName="${item}" id="modalSwitches${item}">
-         <label class="custom-control-label" for="modalSwitches${item}">last coin picked: ${item}</label>
+      $("#modal-footer-container").append(`
+      <div class="row">
+      <div class="custom-control custom-switch modal-switch col-sm-12">
+      <label class="custom-control-label" for="modalSwitches${item}">last coin picked: ${item}</label>
+         <input type="checkbox" class="custom-control-input modal-switch" data-coinName="${item}" id="modalSwitches${item}" data-target="toggle">
       </div>
       </div>       
          `);
