@@ -7,10 +7,11 @@ body {
 }
 
 #header {
-  width: 90%;
+  width: 100%;
   margin-top: 0;
   margin: auto;
-  max-width: 1024px;
+  max-height: 400px;
+  /* max-width: 1024px */
   position: fixed;
   right: 0;
   top: 50px;

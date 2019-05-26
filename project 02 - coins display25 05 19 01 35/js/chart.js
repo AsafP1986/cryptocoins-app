@@ -72,7 +72,7 @@ $(document).ready(function() {
   });
   function updateChartData() {
     $.ajax({
-      url: `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${adress}&tsyms=USD`,
+      url: `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${coinsToBring}}&tsyms=USD`,
       type: "GET",
       success: function(response) {
         var time = new Date();
