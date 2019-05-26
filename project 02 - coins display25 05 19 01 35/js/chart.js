@@ -74,6 +74,7 @@ $(document).ready(function() {
     $.ajax({
       url: `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${coinsToBring}}&tsyms=USD`,
       type: "GET",
+      global: false,
       success: function(response) {
         var time = new Date();
         var index = 0;

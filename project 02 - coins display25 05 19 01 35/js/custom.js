@@ -23,7 +23,27 @@ $(document).ready(function() {
   /* end global vars*/
 
   getCoins();
+
   localStorage.removeItem("dataForChart");
+
+  $(document)
+    .bind("ajaxSend", function() {
+      $("#loading").show();
+    })
+    .bind("ajaxComplete", function() {
+      $("#loading").hide();
+    });
+
+  // $(document).ajaxStart(function(event, xhr, options) {
+  //   console.log("ajax start: " + event + "+" + xhr + "+" + options);
+
+  //   // $("#wait").css("display", "block");
+  // });
+
+  // $(document).ajaxComplete(function(event, xhr, options) {
+  //   console.log("ajax end: " + event + "+" + xhr + "+" + options);
+  //   // $("#wait").css("display", "none");
+  // });
 
   $(document).on("click", "#homeTab", function() {
     getCoins();
@@ -104,19 +124,11 @@ $(document).ready(function() {
     });
   }
 
-  function getModalRow(element) {
-    var d = element.id;
-    var res = d.split("_");
-    var id = res[1];
-
-    var ModalRow = `<div class="row" id="row${element.id}">
+  function getModalRow(id, symbol) {
+    var ModalRow = `<div class="row" id="row${id}">
     <div class="custom-control custom-switch modal-switch col-sm-12">
-    <input type="checkbox" class="custom-control-input toggleBtn" data-coinName="${
-      element.symbol
-    }" id="modalSwitches${element.id}" data-toggle="toggle">
-    <label class="custom-control-label" for="modalSwitches${
-      element.id
-    }">${id}</label>         
+    <input type="checkbox" class="custom-control-input toggleBtn modal-switch" data-coinName="${id}" data-coinSymbol="${symbol}" id="modalSwitches${id}" >
+    <label class="custom-control-label" for="modalSwitches${id}">${id}</label>         
     </div>
     </div> `;
     return ModalRow;
@@ -129,11 +141,11 @@ $(document).ready(function() {
   <div class="card">
     
       <div class="custom-control custom-switch card-switch">              
-          <input type="checkbox" class="custom-control-input toggleBtn" data-coinName="${
+          <input type="checkbox" class="custom-control-input toggleBtn ${
             element.id
-          }" data-coinSymbol="${element.symbol}" id="cardToggle_${
-      element.id
-    }" data-toggle="toggle">
+          }" data-coinName="${element.id}" data-coinSymbol="${
+      element.symbol
+    }" id="cardToggle_${element.id}">
                 <label class="custom-control-label" for="cardToggle_${
                   element.id
                 }" data-coinName="${element.id} data-coinSymbol="${
@@ -149,7 +161,8 @@ $(document).ready(function() {
       element.id
     }">more info</button>             
       <div class="moreInfo collapse" id="MI_${element.id}">
-          <div id="MISpinner_${element.id}" class="collapse"> 
+      <div id="moreInfoloading">
+          <div id="MISpinner_${element.id}"> 
               <div class="d-flex justify-content-center">
                   <div id="CSD_${
                     element.id
@@ -158,7 +171,7 @@ $(document).ready(function() {
               </div>
           </div>
       </div>
-      
+      </div>
       </div>   
     </div>
   </div>`;
@@ -198,7 +211,7 @@ $(document).ready(function() {
   });
 
   function updateMoreInfo(id) {
-    $.ajax({
+    xhr = $.ajax({
       url: `https://api.coingecko.com/api/v3/coins/${id}`,
       type: "GET",
       success: function(response) {
@@ -276,62 +289,87 @@ $(document).ready(function() {
   }
 
   /************ end more info ***********/
-
+  // $(`input:checkbox .Toggle_${id}`).prop("checked", true);
+  // $(`input:checkbox .Toggle_${id}`).prop("checked", false);
   /************* click on toglle toggle *************/
+  $(document).on("change", "input:checkbox", function(element) {
+    target = element.target;
+    let id = String($(this).attr("data-coinName"));
+    console.log("target: " + element.target);
+    if (target.is("checked")) {
+      $(`input:checkbox.${id}`).prop("checked", true);
+    } else {
+      $(`input:checkbox.${id}`).prop("checked", false);
+    }
+  });
+
   $(document).on("click", ".toggleBtn", function(element) {
-    let id = $(this).attr("data-coinName");
-    let symbol = $(this).attr("data-coinSymbol");
+    let id = String($(this).attr("data-coinName"));
+    let symbol = String($(this).attr("data-coinSymbol"));
     let SYMBOL = symbol.toUpperCase();
 
     if ($(this).is(":checked")) {
-      ModalRow = getModalRow(this);
+      let ModalRow = getModalRow(id, symbol);
       $("#modal-body-container").append(ModalRow);
       goodCoinsToPrint.push(symbol.toUpperCase());
       localStorage.setItem("dataForChart", JSON.stringify(goodCoinsToPrint));
       counter++;
+      console.log("counter up: " + counter);
     } else {
       $(`#row-${id}`).remove();
       let location = searchInChartData(SYMBOL);
       goodCoinsToPrint.splice(location, 1),
         localStorage.setItem("dataForChart", JSON.stringify(goodCoinsToPrint));
       counter--;
+      console.log("counter down: " + counter);
+    }
+    if (counter < 6) {
+      handleModalSize("small");
     }
     if (counter == 6) {
-      $(".modal-open").trigger("click");
+      handleModalSize("six");
+    }
+    if (counter > 6) {
+      handleModalSize("big");
     }
 
-    let isFromModal = $(this).hasClass("modal-switch");
-    if (isFromModal) {
-      if ($(`#modalSwitches${id}`).is(":checked")) {
-        $(`#cardToggle_${id}`).prop("checked", true);
+    function handleModalSize(size) {
+      switch (size) {
+        case "small":
+          console.log("small");
+          break;
+        case "six":
+          $("#myModal").modal("show");
+          $("#myModal").trigger("show");
+          break;
+        case "big":
+          alert("please uncheck at least one of the coins");
+          $(document).on("hide.bs.modal", "#myModal", function(element) {
+            $(`input:checkbox.${id}`).prop("checked", false);
+            alert("please uncheck atleast one coin");
+            $("#myModal").modal("show");
+          });
+          break;
+        default:
+          break;
       }
-      if ($(`#modalSwitches${id}`).is(":checked") == false) {
-        $(`#cardToggle_${id}`).prop("checked", false);
+    }
+
+    function searchInChartData(SYMBOL) {
+      let json = localStorage.getItem("dataForChart");
+      goodCoinsToPrint = JSON.parse(json);
+      let counter = 0;
+      for (counter = 0; counter < goodCoinsToPrint.length; counter++) {
+        if (goodCoinsToPrint[counter] == SYMBOL) {
+          console.log("the adress in the arr: " + counter);
+          return counter;
+        }
       }
+      counter = false;
+      return counter;
     }
   });
-  // $(document).on("hide.bs.modal", "#myModal", function(element) {
-  //   if (counter == 6) {
-  //     alert("please uncheck at least one of the coins");
-  //     element.preventDefault();
-  //   }
-  // });
-
-  function searchInChartData(SYMBOL) {
-    let json = localStorage.getItem("dataForChart");
-    goodCoinsToPrint = JSON.parse(json);
-    let counter = 0;
-    for (counter = 0; counter < goodCoinsToPrint.length; counter++) {
-      if (goodCoinsToPrint[counter] == SYMBOL) {
-        console.log("the adress in the arr: " + counter);
-        return counter;
-      }
-    }
-    counter = false;
-    return counter;
-  }
 });
-
 //   if (loadedlocalStorage == null) {
 //     goodcoin = getNewDataObject(id, minuteClicked);
 //     isInLS = searchInLS(id);
@@ -462,27 +500,7 @@ $(document).ready(function() {
 
 // isINGoodpoint
 
-// switch (sizeOfGoodCoins) {
-//   case "small":
-//     if (isChecked) {
-//       addToWantedCoins(id);
-//     } else {
-//       redFromWantedCoins(id);
-//     }
-//     break;
-//   case "six":
-//     addToWantedCoins(id);
-//     printModalBody();
-//     $("#myModal").modal("show");
-//     break;
-
-//   case "big":
-//     $("#myModal").modal("show");
-//     $(`#cardToggle_${id}`).prop("checked", false);
-//     break;
-//   default:
-//     break;
-// }
+//
 
 // $(document).on("show", "#myModal", function(element) {
 //   printModalBody();

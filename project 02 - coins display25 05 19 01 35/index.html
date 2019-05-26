@@ -38,7 +38,7 @@
                     <div class="col">
                         <button
                         type="button"
-                        class="btn btn-outline-secondary btn-md btn-block modal-open"
+                        class="btn btn-secondary btn-md btn-block modal-open"
                         data-toggle="modal"
                         data-target="#myModal"
                       >change your picks</button> 
@@ -46,7 +46,7 @@
                     <div class="col">
                         <button
                         type="button"
-                        class="btn btn-outline-secondary btn-md btn-block goToliveReport"
+                        class="btn btn-secondary btn-md btn-block goToliveReport"
                         data-dismiss="modal"
                         id="modalSaveAndGoBtnModalInOp"
                       >go to live reports</button>
@@ -94,7 +94,17 @@
       </div>
       
       
-      <div id="home" class="row"></div>
+      <div id="home" class="row">
+        <div id="loading">
+          <div id="MISpinner_${element.id}" class="collapse"> 
+            <div class="d-flex justify-content-center">
+              <div id="CSD_${
+                element.id
+              }" class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+          </div>
+      </div>
+  </div></div></div>
     </div>
 
     <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
@@ -123,28 +133,30 @@
           </div>
           <div class="modal-footer">
           <div class="container-fluid" id="modal-footer-container">
-            
+            <div class="row">
+                <h5 id="alertModalInputBig">
+                    please uncheck atleast one of the coins
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary btn-sm btn-block"
+                    data-dismiss="modal"
+                    id="modalSaveBtn"
+                  >
+                    save
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary btn-sm btn-block"
+                    data-dismiss="modal"
+                    id="modalSaveAndGoBtnInModal"
+                  >
+                    save and go to live reports
+                  </button>
+            </div>
           </div>
         </div>  
-          <h5 id="alertModalInputBig">
-            please uncheck atleast one of the coins
-          </h5>
-          <button
-            type="button"
-            class="btn btn-outline-secondary btn-sm btn-block"
-            data-dismiss="modal"
-            id="modalSaveBtn"
-          >
-            save
-          </button>
-          <button
-            type="button"
-            class="btn btn-outline-secondary btn-sm btn-block"
-            data-dismiss="modal"
-            id="modalSaveAndGoBtnInModal"
-          >
-            save and go to live reports
-          </button>
+          
         </div>
       </div>
       <!-- end modal -->
