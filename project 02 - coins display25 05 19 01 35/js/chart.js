@@ -1,14 +1,18 @@
-var dataSeries = [];
-var dataPoints = [];
-
 $(document).ready(function() {
-  updateChartData();
-  // window.onload = function() {
-  var options = {
+  var dataForChart = JSON.parse(localStorage.getItem("dataForChart"));
+  if (dataForChart == null) {
+    alert("you must pick at least one");
+    $("#homeTab").trigger("click");
+  }
+
+  var dataSeries = [];
+  var coinsToBring = dataForChart.join(",").toUpperCase();
+
+  var chart = new CanvasJS.Chart("chartContainer", {
     exportEnabled: true,
     animationEnabled: true,
     title: {
-      text: "coins:  price in USD"
+      text: `coins ${coinsToBring} price in USD`
     },
     subtitles: [
       {
@@ -36,9 +40,72 @@ $(document).ready(function() {
       itemclick: toggleDataSeries
     },
     data: dataSeries
-  };
+  });
 
-  $("#chartContainer").CanvasJSChart(options);
+  $.ajax({
+    url: `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${coinsToBring}&tsyms=USD`,
+    type: "GET",
+    success: function(response) {
+      var time = new Date();
+      var index = 0;
+
+      Object.keys(response).forEach(function(element) {
+        dataSeries.push({
+          type: "spline",
+          name: element,
+          showInLegend: true,
+          xValueFormatString: "DDD HH:mm:ss",
+          yValueFormatString: "$#,##0.#",
+          dataPoints: [{ x: time, y: response[element].USD }]
+        });
+
+        // Object.keys(response).forEach(function(element) {
+        //   dataSeries[index].dataPoints.push({
+        //     x: time,
+        //     y: response[element].USD
+        //   });
+        //   index++;
+        // });
+      });
+      chart.render();
+    }
+  });
+  function updateChartData() {
+    $.ajax({
+      url: `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${adress}&tsyms=USD`,
+      type: "GET",
+      success: function(response) {
+        var time = new Date();
+        var index = 0;
+
+        // console.log("response values: " + Object.values(response));
+        // console.log("response keys: " + Object.keys(response).usd);
+        // Object.keys(response).forEach(function(element) {
+        //   dataSeries.push({
+        //     type: "spline",
+        //     name: element,
+        //     showInLegend: true,
+        //     xValueFormatString: "DDD HH:mm:ss",
+        //     yValueFormatString: "$#,##0.#",
+        //     dataPoints: [{ x: time, y: response[element].USD }]
+        //   });
+
+        Object.keys(response).forEach(function(element) {
+          dataSeries[index].dataPoints.push({
+            x: time,
+            y: response[element].USD
+          });
+          index++;
+        });
+        chart.render();
+      }
+    });
+    // console.log("modal input from update chart :" + coinsToBring);
+    // console.log("modal input from update chart :" + typeof coinsToBring);
+    // console.log("adress from update chart :" + adress);
+    // console.log("adress from update chart :" + typeof adress);
+  }
+  setInterval(updateChartData, 2000);
 
   function toggleDataSeries(e) {
     if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
@@ -48,50 +115,4 @@ $(document).ready(function() {
     }
     e.chart.render();
   }
-  updateChartData();
-
-  function updateChartData() {
-    var dataForChartFromModal = localStorage.getItem("dataForChart");
-    var coinsToBring = [];
-    dataForChartFromModal.forEach(element => {
-      coinsToBring.push(element.toString().toUpperCase());
-    });
-
-    var adress = coinsToBring.toString();
-    $.ajax({
-      url: `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${adress}&tsyms=USD`,
-      type: "GET",
-      success: function(response) {
-        var time = new Date();
-        var index = 0;
-        console.log("response values: " + Object.values(response));
-        console.log("response keys: " + Object.keys(response).usd);
-        Object.keys(response).forEach(function(element) {
-          dataSeries.push({
-            type: "spline",
-            name: element,
-            showInLegend: true,
-            xValueFormatString: "DDD HH:mm:ss",
-            yValueFormatString: "$#,##0.#",
-            dataPoints: [{ x: time, y: response[element].USD }]
-          });
-
-          Object.keys(response).forEach(function(element) {
-            dataSeries[index].dataPoints.push({
-              x: time,
-              y: response[element].USD
-            });
-            index++;
-          });
-        });
-        chart.render();
-        console.log("liveReportData: " + liveReportData);
-      }
-    });
-    console.log("modal input from update chart :" + coinsToBring);
-    console.log("modal input from update chart :" + typeof coinsToBring);
-    console.log("adress from update chart :" + adress);
-    console.log("adress from update chart :" + typeof adress);
-  }
-  setInterval(updateChartData, 2000);
 });

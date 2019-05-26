@@ -12,32 +12,26 @@ $(document).ready(function() {
     usd: "",
     eur: ""
   };
-
   var goodCoinsToPrint = [];
-
-  var index = 0;
-  var i = "";
-  var modalInput = [];
-  var modalInputSize = "";
+  var goodcoin = "";
   var storedResponse = [];
   var coinSymbols = [];
   var checkIfIn3API = new Boolean();
-
   var dataSeries = [];
 
   /* end global vars*/
 
-  // storedResponse = getCoins();
-  // checkIfIn3APIFunc(storedResponse);
-
   getCoins();
-  // $(".moreInfo").hide();
+  // localStorage.setItem("dataForChart", JSON.stringify(null));
 
   $(document).on("click", "#homeTab", function() {
     getCoins();
   });
   $(document).on("click", "#liveReportsTab", function() {
     $("#home").load("./livereports.html");
+  });
+  $(document).on("click", ".goToliveReport", function() {
+    $("#home").load("./livereports.html ");
   });
 
   $(document).on("click", "#aboutTab", function() {
@@ -67,8 +61,6 @@ $(document).ready(function() {
       }
     });
   }
-
-  
 
   function searchCoin() {
     var search = $("#searchInput").val();
@@ -153,272 +145,7 @@ $(document).ready(function() {
 
     return card;
   }
-
-  /************* click on toglle toggle *************/
-  $(document).on("click", ".toggleBtn", function(element) {
-    let id = $(this).attr("data-coinName");
-    let isChecked = $(`#cardToggle_${id}`).is(":checked");
-    console.log("isChecked from click on card: " + isChecked);
-
-    loadedlocalStorage = localStorage.getItem("MIStorage");
-
-    if (loadedlocalStorage == null) {
-      getNewDataObject(id, minuteClicked);
-    } else {
-      loadedlocalStorageArr = JSON.parse(loadedlocalStorage);
-      console.log("loadedlocalStorageArr: " + loadedlocalStorageArr);
-      var isInLS = searchInLS(id);
-      if (isInLS == false) {
-        getNewDataObject(id, minuteClicked);
-      } else {
-        var location = isInLS;
-        var lastclicked = loadedlocalStorageArr[location].time;
-        var timePassed = minuteClicked - lastclicked; 
-      }
-
-    let isFromModal = $(this).hasClass("modal-switch");
-    if (isFromModal) {
-      if ($(`#modalSwitches${id}`).is(":checked")) {
-        $(`#cardToggle_${id}`).prop("checked", true);
-      }
-      if ($(`#modalSwitches${id}`).is(":checked") == false) {
-        $(`#cardToggle_${id}`).prop("checked", false);
-
-      }
-    }
-    if (isChecked) {
-        addToWantedCoins(id);
-      } else {
-        redFromWantedCoins(id);
-      }
-
-      function addToWantedCoins(id) {
-
-
-        goodcoin = {
-          coinId: loadedlocalStorageArr[location].id,
-          coinSymbol: loadedlocalStorageArr[location].symbol,
-          coinName: loadedlocalStorageArr[location].name,
-          time: minuteClicked,
-          ils: loadedlocalStorageArr[location].market_data.current_price.ils,
-          usd: loadedlocalStorageArr[location].market_data.current_price.usd,
-          eur: loadedlocalStorageArr[location].market_data.current_price.eur
-        };
-
-        goodCoinsToPrint.push(goodcoin);
-        localStorage.setItem("dataForChart", JSON.stringify(goodCoinsToPrint));
-
-
-    modalInput = localStorage.getItem("dataForChart");
-
-    if (modalInput == null) {
-      modalInput = [];
-      modalInput.push(id);
-    }
-    var coinsearch = id;
-    var isCoinInArr = "";
-    for (let index = 0; index < modalInput.length; index++) {
-      if (modalInput[index] == coinsearch) {
-        isCoinInArr = true;
-      } else {
-        isCoinInArr = true;
-      }
-      if (isCoinInArr == false) {
-        modalInput.push(id);
-        localStorage.setItem("dataForChart", modalInput);
-      }
-    }
-  } 
-
-
-    
-    
-    modalInputSize = checkModalInputLength(id);
-    modalInput = localStorage.getItem("dataForChart");
-
-
-
-    // console.log("id from click on cardtoggle: " + id);
-    // console.log("isChecked from click on card: " + isChecked);
-    // console.log("isFromModal from click on cardtoggle: " + isFromModal);
-    // console.log("modalInputSize from click on cardtoggle: " + modalInputSize);
-    // console.log("modalInput from click on cardtoggle: " + modalInput);
-    if (modalInput == null) {
-      modalInput = [];
-      modalInput.push(id);
-    }
-    
-     else {
-      switch (modalInputSize) {
-        case "small":
-          if (isChecked) {
-            addToWantedCoins(id);
-          } else {
-            redFromWantedCoins(id);
-          }
-          break;
-        case "six":
-          addToWantedCoins(id);
-          printModalBody();
-          $("#myModal").modal("show");
-          break;
-
-        case "big":
-          $("#myModal").modal("show");
-          $(`#cardToggle_${id}`).prop("checked", false);
-          break;
-        default:
-          break;
-      }
-    }
-    console.log("modalInput from click on card: " + modalInput);
-    console.log("type of modalInput from click on card: " + typeof modalInput);
-
-    localStorage.setItem("dataForChart", modalInput);
-  });
-
-  /************* end click on card toggle *************/
-
-  /**************  click on modal toggles **************/
-  $(document).on("click", ".modal-switch", function(element) {
-    modalInput = localStorage.getItem("dataForChart");
-    let id = $(this).attr("data-coinName");
-    let isChecked = $(`#modalSwitches${id}`).is(":checked");
-    console.log("id: " + id);
-    console.log("isChecked: " + isChecked);
-    if (modalInput == null) {
-      modalInput.push(id);
-    }
-    if (isChecked == false) {
-      d(id, modalInput);
-    } else {
-      addToWantedCoins(id, modalInput);
-    }
-    console.log("from click on modal toggle: " + modalInput);
-  });
-  /**************  end click on modal toggles **************/
-
-  /**************   click on modal buttons **************/
-
-  $(document).on("click", ".goToliveReport", function() {
-    $("#home").load("./livereports.html ");
-  });
-
-  // $(document).on("show", "#myModal", function(element) {
-  //   printModalBody();
-  // });
-  // $(document).on("click", ".modal-open", function() {
-  //   printModalBody();
-  // });
-
-  // $(document).on("hide.bs.modal", "#myModal", function(element) {
-  //   modalInputSize = checkModalInputLength();
-
-  //   if (modalInputSize == "big") {
-  //     alert("please uncheck at least one of the coins");
-  //     element.preventDefault();
-  //   }
-
-  // });
-
-  /**************  end click on modal buttons **************/
-
-  /************** card-modal functions *****************/
-
- 
-
-  function redFromWantedCoins(id, modalInput) {
-    var coinsearch = id;
-    modalInput = localStorage.getItem("dataForChart");
-
-    if (modalInput == null) {
-      modalInput = [];
-      modalInput.push(id);
-    }
-    for (let index = 0; index < modalInput.length; index++) {
-      if (modalInput[index] == coinsearch) {
-        modalInput.splice(index, 1);
-        localStorage.setItem("dataForChart", modalInput);
-      }
-    }
-  }
-
-  function checkModalInputLength(id) {
-    modalInput = localStorage.getItem("dataForChart");
-
-    if (modalInput == null) {
-      modalInput = [];
-      modalInput.push(id);
-    }
-
-    if (modalInput.length < 5) {
-      return "small";
-    }
-    if (modalInput.length == 5) {
-      return "six";
-    }
-    if (modalInput.length > 5) {
-      return "big";
-    }
-  }
-
-  function printModalBody() {
-    modalInput = localStorage.getItem("dataForChart");
-
-    // if (modalInput == null) {
-    //   modalInput = [];
-    //   modalInput.push(id);
-    // }
-    $("#modal-body-container").html(" ");
-    $("#modal-footer-container").html(" ");
-    console.log("modalInput: " + modalInput);
-    console.log("type of modalInput: " + typeof modalInput);
-
-    for (let index = 0; index < modalInput.length; index++) {
-      if (index <= 4) {
-        $("#modal-body-container").append(`
-      <div class="row">
-      <div class="custom-control${modalInput[index]} custom-switch${
-          modalInput[index]
-        } modal-switch${modalInput[index]} col-sm-12">
-      <input type="checkbox" class="custom-control-input toggleBtn
-       modal-switch${modalInput[index]}" data-coinName="${
-          modalInput[index]
-        }" id="modalSwitches${modalInput[index]}">
-      <label class="custom-control-label${
-        modalInput[index]
-      }" for="modalSwitches${modalInput[index]}">${modalInput[index]}</label>
-           
-      </div>
-      </div> 
-         `);
-        $(`#modalSwitches${modalInput[index]}`).prop("checked", true);
-      } else {
-        $("#modal-footer-container").append(`
-      <div class="row">
-      <div class="custom-control${modalInput[index]} custom-switch${
-          modalInput[index]
-        } modal-switch${modalInput[index]} col-sm-12">
-      <input type="checkbox" class="custom-control-input${
-        modalInput[index]
-      } modal-switch" data-coinName="${modalInput[index]}" id="modalSwitches${
-          modalInput[index]
-        }">
-      <label class="custom-control-label${
-        modalInput[index]
-      }" for="modalSwitches${modalInput[index]}">last coin picked: ${
-          modalInput[index]
-        }</label>
-      </div>
-      </div>       
-         `);
-        $(`#modalSwitches${modalInput[index]}`).prop("checked", true);
-      }
-    }
-  }
-
-  /************ more info ***********/
-
+  /************ start more info ***********/
   $(document).on("click", ".more-info-btn", function(element) {
     var timeClicked = new Date();
     var minuteClicked = timeClicked.getTime();
@@ -443,14 +170,14 @@ $(document).ready(function() {
         var timePassed = minuteClicked - lastclicked;
 
         if (timePassed >= 120000) {
-          updateMI(id, minuteClicked);
+          updateMoreInfo(id);
           $(`#MI_${loadedlocalStorageArr[location].coinId}`).show();
         }
       }
     }
   });
 
-  function updateMI(id, minuteClicked) {
+  function updateMoreInfo(id) {
     $.ajax({
       url: `https://api.coingecko.com/api/v3/coins/${id}`,
       type: "GET",
@@ -515,7 +242,6 @@ $(document).ready(function() {
           eur: response.market_data.current_price.eur
         };
 
-        
         console.log(`to storage:  + ${dataObject.coinId}`);
         console.log(dataObject.time);
         console.log(dataObject.ils);
@@ -523,12 +249,248 @@ $(document).ready(function() {
         console.log(dataObject.eur);
         storedInfoArr.push(dataObject);
         localStorage.setItem("MIStorage", JSON.stringify(storedInfoArr));
+        console.log(storedInfoArr);
+        return storedInfoArr;
       }
     });
   }
 
   /************ end more info ***********/
+
+  /************* click on toglle toggle *************/
+  $(document).on("click", ".toggleBtn", function(element) {
+    let id = $(this).attr("data-coinName");
+    let isChecked = $(`#cardToggle_${id}`).is(":checked");
+    var timeClicked = new Date();
+    var minuteClicked = timeClicked.getTime();
+    console.log("isChecked from click on toggle Btn: " + isChecked);
+
+    loadedlocalStorage = localStorage.getItem("MIStorage");
+
+    if (loadedlocalStorage == null) {
+      goodcoin = getNewDataObject(id, minuteClicked);
+      isInLS = searchInLS(id);
+      if (isInLS == false) {
+      }
+      let checkGoodCoinsArr = checkWantedCoinsLength();
+      if (checkGoodCoinsArr == "small") {
+        addToWantedCoins(location, loadedlocalStorageArr);
+      }
+    } else {
+      loadedlocalStorageArr = JSON.parse(loadedlocalStorage);
+      console.log("loadedlocalStorageArr: " + loadedlocalStorageArr);
+      var isInLS = searchInLS(id);
+      if (isInLS == false) {
+        getNewDataObject(id, minuteClicked);
+        addToWantedCoins(location, loadedlocalStorageArr);
+      } else {
+        var location = isInLS;
+        var lastclicked = loadedlocalStorageArr[location].time;
+        var timePassed = minuteClicked - lastclicked;
+      }
+    }
+    let isFromModal = $(this).hasClass("modal-switch");
+    if (isFromModal) {
+      if ($(`#modalSwitches${id}`).is(":checked")) {
+        $(`#cardToggle_${id}`).prop("checked", true);
+      }
+      if ($(`#modalSwitches${id}`).is(":checked") == false) {
+        $(`#cardToggle_${id}`).prop("checked", false);
+      }
+    }
+    if (isChecked) {
+      addToWantedCoins(location, loadedlocalStorageArr);
+      let sizeOfGoodCoins = checkWantedCoinsLength();
+      console.log("sizeOfGoodCoins from addToWantedCoins: " + sizeOfGoodCoins);
+    } else {
+      redFromWantedCoins(location, loadedlocalStorageArr);
+      let sizeOfGoodCoins = checkWantedCoinsLength();
+      console.log(
+        "sizeOfGoodCoins from redFromWantedCoins: " + sizeOfGoodCoins
+      );
+    }
+  });
+
+  function addToWantedCoins(location, loadedlocalStorageArr) {
+    var goodcoin = {
+      coinId: loadedlocalStorageArr[location].id,
+      coinSymbol: loadedlocalStorageArr[location].symbol,
+      coinName: loadedlocalStorageArr[location].name,
+      time: minuteClicked,
+      ils: loadedlocalStorageArr[location].market_data.current_price.ils,
+      usd: loadedlocalStorageArr[location].market_data.current_price.usd,
+      eur: loadedlocalStorageArr[location].market_data.current_price.eur
+    };
+
+    goodCoinsToPrint.push(goodcoin);
+    localStorage.setItem("dataForChart", JSON.stringify(goodCoinsToPrint));
+  }
+
+  function redFromWantedCoins(location, goodCoinsToPrint) {
+    goodCoinsToPrint.splice(location, 1);
+    localStorage.setItem("dataForChart", goodCoinsToPrint);
+  }
+
+  function checkWantedCoinsLength() {
+    let goodcoins = localStorage.getItem("dataForChart");
+    goodCoinsToPrint = JSON.parse(goodcoins);
+    if (goodcoins == undefined) {
+      return "noarray";
+    } else {
+      if (goodCoinsToPrint.length < 5) {
+        return "small";
+      }
+      if (goodCoinsToPrint.length == 5) {
+        return "six";
+      }
+      if (goodCoinsToPrint.length > 5) {
+        return "big";
+      }
+    }
+  }
+
+  function printModal() {
+    let goodCoinsToPrint = localStorage.getItem("dataForChart");
+
+    // if (modalInput == null) {
+    //   modalInput = [];
+    //   modalInput.push(id);
+    // }
+    $("#modal-body-container").html(" ");
+    $("#modal-footer-container").html(" ");
+    console.log("modalInput: " + goodCoinsToPrint);
+    console.log("type of modalInput: " + typeof goodCoinsToPrint);
+
+    for (let index = 0; index < modalInput.length; index++) {
+      if (index <= 4) {
+        $("#modal-body-container").append(`
+          <div class="row">
+          <div class="custom-control${modalInput[index]} custom-switch${
+          modalInput[index]
+        } modal-switch${modalInput[index]} col-sm-12">
+          <input type="checkbox" class="custom-control-input toggleBtn
+           modal-switch${modalInput[index]}" data-coinName="${
+          modalInput[index]
+        }" id="modalSwitches${modalInput[index]}">
+          <label class="custom-control-label${
+            modalInput[index]
+          }" for="modalSwitches${modalInput[index]}">${
+          modalInput[index]
+        }</label>
+               
+          </div>
+          </div> 
+             `);
+        $(`#modalSwitches${modalInput[index]}`).prop("checked", true);
+      } else {
+        $("#modal-footer-container").append(`
+          <div class="row">
+          <div class="custom-control${modalInput[index]} custom-switch${
+          modalInput[index]
+        } modal-switch${modalInput[index]} col-sm-12">
+          <input type="checkbox" class="custom-control-input${
+            modalInput[index]
+          } modal-switch" data-coinName="${
+          modalInput[index]
+        }" id="modalSwitches${modalInput[index]}">
+          <label class="custom-control-label${
+            modalInput[index]
+          }" for="modalSwitches${modalInput[index]}">last coin picked: ${
+          modalInput[index]
+        }</label>
+          </div>
+          </div>       
+             `);
+        $(`#modalSwitches${modalInput[index]}`).prop("checked", true);
+      }
+    }
+  }
 });
+
+// isINGoodpoint
+
+// switch (sizeOfGoodCoins) {
+//   case "small":
+//     if (isChecked) {
+//       addToWantedCoins(id);
+//     } else {
+//       redFromWantedCoins(id);
+//     }
+//     break;
+//   case "six":
+//     addToWantedCoins(id);
+//     printModalBody();
+//     $("#myModal").modal("show");
+//     break;
+
+//   case "big":
+//     $("#myModal").modal("show");
+//     $(`#cardToggle_${id}`).prop("checked", false);
+//     break;
+//   default:
+//     break;
+// }
+
+// $(document).on("show", "#myModal", function(element) {
+//   printModalBody();
+// });
+// $(document).on("click", ".modal-open", function() {
+//   printModalBody();
+// });
+
+// $(document).on("hide.bs.modal", "#myModal", function(element) {
+//   modalInputSize = checkModalInputLength();
+
+//   if (modalInputSize == "big") {
+//     alert("please uncheck at least one of the coins");
+//     element.preventDefault();
+//   }
+
+// });
+
+/************* end click on toggle toggle *************/
+
+/**************   click on modal buttons **************/
+
+// $(document).on("show", "#myModal", function(element) {
+//   printModalBody();
+// });
+// $(document).on("click", ".modal-open", function() {
+//   printModalBody();
+// });
+
+// $(document).on("hide.bs.modal", "#myModal", function(element) {
+//   modalInputSize = checkModalInputLength();
+
+//   if (modalInputSize == "big") {
+//     alert("please uncheck at least one of the coins");
+//     element.preventDefault();
+//   }
+
+// });
+
+/**************  end click on modal buttons **************/
+
+// storedResponse = getCoins();
+// checkIfIn3APIFunc(storedResponse);
+/**************  click on modal toggles **************/
+// $(document).on("click", ".modal-switch", function(element) {
+//   modalInput = localStorage.getItem("dataForChart");
+//   let id = $(this).attr("data-coinName");
+//   let isChecked = $(`#modalSwitches${id}`).is(":checked");
+//   console.log("id: " + id);
+//   console.log("isChecked: " + isChecked);
+//   if (modalInput == null) {
+//     modalInput.push(id);
+//   }
+//   if (isChecked == false) {
+//     d(id, modalInput);
+//   } else {
+//     addToWantedCoins(id, modalInput);
+//   }
+//   console.log("from click on modal toggle: " + modalInput);
+// });
+/**************  end click on modal toggles **************/
 
 /************** end card-modal functions *****************/
 

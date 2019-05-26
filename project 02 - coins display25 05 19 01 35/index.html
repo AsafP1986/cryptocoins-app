@@ -25,7 +25,8 @@
         <div class="container-fluid nav-container">
           <div class="row" id="helper">
             <div class="col">
-                <h1>Cryptonite</h1>
+              
+              <h3 class="display-3">Cryptonite</h3>
             </div>
               <div class="col-8">
                 <div class="row">
@@ -37,7 +38,7 @@
                     <div class="col">
                         <button
                         type="button"
-                        class="btn btn-secondary btn-lg btn-block modal-open"
+                        class="btn btn-outline-secondary btn-md btn-block modal-open"
                         data-toggle="modal"
                         data-target="#myModal"
                       >change your picks</button> 
@@ -45,7 +46,7 @@
                     <div class="col">
                         <button
                         type="button"
-                        class="btn btn-outline-secondary btn-lg btn-block goToliveReport"
+                        class="btn btn-outline-secondary btn-md btn-block goToliveReport"
                         data-dismiss="modal"
                         id="modalSaveAndGoBtnModalInOp"
                       >go to live reports</button>
@@ -118,7 +119,24 @@
           </div>
           <div class="modal-body">
             <div class="container-fluid" id="modal-body-container">
-              
+              <div class="row">
+                  <div class="row">
+                      <div class="custom-control${modalInput[index]} custom-switch${
+                      modalInput[index]
+                    } modal-switch${modalInput[index]} col-sm-12">
+                      <input type="checkbox" class="custom-control-input toggleBtn
+                       modal-switch${modalInput[index]}" data-coinName="${
+                      modalInput[index]
+                    }" id="modalSwitches${modalInput[index]}">
+                      <label class="custom-control-label${
+                        modalInput[index]
+                      }" for="modalSwitches${modalInput[index]}">${
+                      modalInput[index]
+                    }</label>
+                           
+                      </div>
+                      </div> 
+              </div>
             </div>
           </div>
           <div class="modal-footer">
