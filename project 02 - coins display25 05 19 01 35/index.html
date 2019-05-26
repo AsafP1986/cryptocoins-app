@@ -14,6 +14,7 @@
     <script src="js/jquery.canvasjs.min.js"></script>
     <script src="js/bootstrap-toggle.min.js"></script>
     <script src="js/custom.js"></script>
+    <!-- <script src="js/custom.1.js"></script> -->
 
     <title>Coins data project</title>
   </head>
@@ -22,71 +23,75 @@
     <div id="backgroundPic"></div>
       <div id="header">
         <div class="container-fluid nav-container">
-          <h1>Cryptonite</h1>
-          <div id="navs" class="row">
-            <nav class="navbar navbar-expand-lg navbar-light" id="tabs">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item " id="homeTab">
-                  <a class="nav-link" href="#home"
-                    >Home
-                    <!-- <span class="sr-only">(current)</span> -->
-                  </a>
-                </li>
-                <li class="nav-item" id="liveReportsTab">
-                  <a class="nav-link" href="#">live Reports</a>
-                </li>
-                <label>
-                  <li class="nav-item" id="aboutTab">
-                    <a class="nav-link" href="#">About</a>
-                  </li>
-                </label>
-              </ul>
-              <form class="form-inline my-2 my-lg-0 searchTabs">
-                <input
-                  class="form-control mr-sm-2 my-lg-0"
-                  type="search"
-                  placeholder="Search by coin id.."
-                  id="searchInput"
-                />
-                <button
-                  class="btn btn-outline my-2 my-sm-0"
-                  type="submit"
-                  id="searchBtn"
-                >
-                  Search
-                </button>
-              </form>
-            </nav>
-          </div>
-        </div>
-      </div>
-      <div id="operator">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-12 text-center">
-                    <p style="color: rgb(227, 189, 66); font-size: 16pt">please select coins for live report</p> 
+          <div class="row" id="helper">
+            <div class="col">
+                <h1>Cryptonite</h1>
+            </div>
+              <div class="col-8">
+                <div class="row">
+                    <div class="col text-center">
+                        <p style="color: rgb(227, 189, 66); font-size: 16pt">please select coins for live report</p> 
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="col">
+                        <button
+                        type="button"
+                        class="btn btn-secondary btn-lg btn-block modal-open"
+                        data-toggle="modal"
+                        data-target="#myModal"
+                      >change your picks</button> 
+                    </div>
+                    <div class="col">
+                        <button
+                        type="button"
+                        class="btn btn-outline-secondary btn-lg btn-block goToliveReport"
+                        data-dismiss="modal"
+                        id="modalSaveAndGoBtnModalInOp"
+                      >go to live reports</button>
+                    </div>
+                  </div>
               </div>
-            <div class="row">
-              <div class="col-sm-12">
-                  <button
-                  type="button"
-                  class="btn btn-secondary btn-lg btn-block modal-open"
-                  data-toggle="modal"
-                  data-target="#myModal"
-                >change your picks</button> 
-              </div>
-              <div class="col-sm-12">
-                  <button
-                  type="button"
-                  class="btn btn-outline-secondary btn-lg btn-block modalSaveAndGoBtn"
-                  data-dismiss="modal"
-                  id="modalSaveAndGoBtnModalInOp"
-                >go to live reports</button>
-              </div>
+          </div>
+          <div id="navs" class="row">
+            <div class="col">
+                <nav class="navbar navbar-expand-lg navbar-light" id="tabs">
+                    <ul class="navbar-nav mr-auto">
+                      <li class="nav-item " id="homeTab">
+                        <a class="nav-link" href="#home"
+                          >Home
+                        </a>
+                      </li>
+                      <li class="nav-item" id="liveReportsTab">
+                        <a class="nav-link" href="#">live Reports</a>
+                      </li>
+                      <label>
+                        <li class="nav-item" id="aboutTab">
+                          <a class="nav-link" href="#">About</a>
+                        </li>
+                      </label>
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0 searchTabs" onsubmit="return false">
+                      <input
+                        class="form-control mr-sm-2 my-lg-0"
+                        type="search"
+                        placeholder="Search by coin id.."
+                        id="searchInput"
+                      />
+                      <button
+                        class="btn btn-outline my-2 my-sm-0"
+                        type="submit"
+                        id="searchBtn"
+                      >
+                        Search
+                      </button>
+                    </form>
+                  </nav>
             </div>
           </div>
         </div>
+      </div>
+      
       
       <div id="home" class="row"></div>
     </div>
@@ -146,3 +151,63 @@
     </div>
   </body>
 </html>
+
+<!-- <div id="operator">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light" id="tabs">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item " id="homeTab">
+                <a class="nav-link" href="#home"
+                  >Home
+                </a>
+              </li>
+              <li class="nav-item" id="liveReportsTab">
+                <a class="nav-link" href="#">live Reports</a>
+              </li>
+              <label>
+                <li class="nav-item" id="aboutTab">
+                  <a class="nav-link" href="#">About</a>
+                </li>
+              </label>
+            </ul>
+            <form class="form-inline my-2 my-lg-0 searchTabs">
+              <input
+                class="form-control mr-sm-2 my-lg-0"
+                type="search"
+                placeholder="Search by coin id.."
+                id="searchInput"
+              />
+              <button
+                class="btn btn-outline my-2 my-sm-0"
+                type="submit"
+                id="searchBtn"
+              >
+                Search
+              </button>
+            </form>
+          </nav>
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <p style="color: rgb(227, 189, 66); font-size: 16pt">please select coins for live report</p> 
+            </div>
+          </div>
+        <div class="row">
+          <div class="col-sm-12">
+              <button
+              type="button"
+              class="btn btn-secondary btn-lg btn-block modal-open"
+              data-toggle="modal"
+              data-target="#myModal"
+            >change your picks</button> 
+          </div>
+          <div class="col-sm-12">
+              <button
+              type="button"
+              class="btn btn-outline-secondary btn-lg btn-block modalSaveAndGoBtn"
+              data-dismiss="modal"
+              id="modalSaveAndGoBtnModalInOp"
+            >go to live reports</button>
+          </div>
+        </div>
+      </div>
+    </div> -->
