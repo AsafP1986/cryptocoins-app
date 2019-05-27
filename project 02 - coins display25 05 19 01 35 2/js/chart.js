@@ -1,8 +1,5 @@
 $(document).ready(function() {
   var dataForChart = JSON.parse(localStorage.getItem("dataForChart"));
-
-  console.log("dataForChart: " + dataForChart);
-
   if (dataForChart == null) {
     alert("you must pick at least one");
     $("#homeTab").trigger("click");
