@@ -19,7 +19,7 @@
   </head>
 
   <body>
-    <div class="container">
+    <div class="container bg-light">
       <div class="row">
         <div class="col-sm bg-light">
             <h1 class="display-4">Cryptonite</h1>
@@ -39,16 +39,75 @@
             </button>
           </div>
         </div>
+       <!-- inserting nav container to helper --> 
+       <nav class="navbar-outline bg-light navbar-expand-lg navbar-light bg-light"
+       role="navbar"
+       aria-label="Toolbar with button groups"
+     ><form class="form-inline">
+            <ul class="nav nav-pills ">
+              <li class="nav-item">
+                <a class="nav-link text-secondary border border-secondary" href="#">home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-secondary border border-secondary" href="#">Live Reports</a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link text-secondary border border-secondary" href="#">About</a>
+              </li>
+            </ul>
+                <input
+                    class="form-control ml-auto"
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                                    />
+                    <button class="btn btn-secondery" type="button">
+                         Search
+                    </button>
+            </div>
+        </form> 
+        </nav>
+       <!-- inserting nav container to helper --> 
       </div>
     </div>
 
 
     <label for="">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</label></br></br></br>
     <!-- justify-content-between -->
-    <nav class="navbar-outline bg-light navbar-expand-lg navbar-light bg-light"
+    <nav class=" container navbar-outline bg-light navbar-expand-lg navbar-light bg-light"
       role="navbar"
       aria-label="Toolbar with button groups"
-    ><form class="form-inline">
+    >
+    
+    <!-- inserting helper container to nav -->
+    <div class="container bg-light">
+            <div class="row">
+              <div class="col-sm bg-light">
+                  <h1 class="display-4">Cryptonite</h1>
+              </div>
+              <div class="col-sm">
+                <div class="row">
+                  <p class= "text-center" style="color: rgb(227, 189, 66); font-size: 18pt">
+                    please select coins for live report
+                  </p>
+                </div>
+                <div class="btn-group" role="group" aria-label="First group">
+                  <button type="button" class="btn btn-secondary">
+                    change picks
+                  </button>
+                  <button type="button" class="btn btn-secondary">
+                    go to reports
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+
+
+    <!-- end inserting helper container to nav -->
+
+    <form class="form-inline">
         <ul class="nav nav-pills ">
           <li class="nav-item">
             <a class="nav-link text-secondary border border-secondary" href="#">home</a>
@@ -66,7 +125,7 @@
                 placeholder="Search"
                 aria-label="Search"
                                 />
-                <button class="btn btn-secondery" type="button">
+                <button class="btn btn-secondery border border-secondary" type="button">
                      Search
                 </button>
         </div>
@@ -90,7 +149,12 @@
         <span class="navbar-toggler-icon"></span>
       </button>
     </nav>
-    <label for="">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</label> </br></br></br></br>
+
+
+    <label style="color:white ; font-size: 14pt;">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</label> </br></br></br></br>
+    
+    
+    
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
@@ -142,5 +206,7 @@
         </button>
       </form>
     </div>
+
+
   </body>
 </html>

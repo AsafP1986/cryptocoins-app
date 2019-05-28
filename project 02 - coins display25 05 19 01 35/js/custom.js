@@ -94,7 +94,7 @@ $(document).ready(function() {
   function getModalRow(id, symbol) {
     var ModalRow = `<div class="row" id="row${id}">
     <div class="custom-control custom-switch modal-switch custom-control-inline" data-target="toggle">
-    <input type="checkbox" class="custom-control-input  toggleBtn${id} modal-switch"
+    <input type="checkbox" class="custom-control-input  toggleBtn${id}"
     data-coinName="${id}" data-target="toggle" data-coinSymbol="${symbol}" id="modalSwitche${id}">
     <label class="custom-control-label" for="modalSwitches${id}">${id}</label>         
     </div>
