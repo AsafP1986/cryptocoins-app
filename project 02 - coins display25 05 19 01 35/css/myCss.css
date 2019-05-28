@@ -5,12 +5,24 @@ body {
   background-attachment: fixed;
   background-position: center;
 }
+/* #backgroundPic {
+  background-image: url("../images/cryptocoinsBG.jpg");
+  min-height: 100%;
+  height: 100% fixed;
+  width: 100% fixed;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -1;
+} */
 
 #header {
+  /**/
   width: 100%;
   margin-top: 200px;
   margin: auto;
-  max-height: 200px;
+
   position: fixed;
   right: 0;
   top: 50px;
@@ -20,11 +32,25 @@ body {
   border-top: solid 3px black;
 }
 
+.btn-group {
+  width: 100%;
+}
+
+.nav-link {
+  font-size: 14pt;
+  text-align: center;
+}
+.nav-item {
+  width: 150px;
+  position: relative;
+}
+
 #home {
   margin: 100px auto;
   max-width: 1024px;
   padding-top: 150px;
 }
+
 .moreInfo {
   position: absolute;
 }
@@ -47,19 +73,9 @@ body {
 
 .more-info-btn {
   margin-right: 5px;
+  float: right;
 }
 
-#backgroundPic {
-  background-image: url("../images/cryptocoinsBG.jpg");
-  min-height: 100%;
-  height: 100% fixed;
-  width: 100% fixed;
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  z-index: -1;
-}
 .media {
   width: 100%;
   padding: 0;
@@ -67,32 +83,6 @@ body {
 .media-body {
   text-align: center;
   padding-top: 15px;
-}
-
-#searchBtn {
-  margin-left: 20px;
-  border: 1px solid black;
-}
-/* .searchTabs {
-  margin-left: auto;
-}
-.navbar-nav {
-  margin-top: 7px;
-  margin-bottom: -16px;
-} */
-.btn-group {
-  width: 100%;
-}
-
-.nav-link {
-  font-size: 14pt;
-  text-align: center;
-}
-.nav-item {
-  width: 150px;
-  position: relative;
-  background-color: white;
-  border-color: black;
 }
 
 #aboutDiv {
