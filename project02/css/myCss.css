@@ -1,0 +1,114 @@
+body {
+  background-image: url("../images/cryptocoinsBG.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+#header {
+  width: 100%;
+  margin-top: 200px;
+  margin: auto;
+  position: fixed;
+  right: 0;
+  top: 50px;
+  z-index: 2;
+  background-color: white;
+  border-bottom: double 3px black;
+  border-top: solid 3px black;
+}
+
+#loading {
+  position: absolute;
+  top: 10%;
+  left: 40%;
+  margin: 30% auto;
+}
+
+.btn-group {
+  width: 100%;
+}
+
+.nav-link {
+  font-size: 14pt;
+  text-align: center;
+}
+.nav-item {
+  width: 150px;
+  position: relative;
+}
+
+#home {
+  margin: 100px auto;
+  max-width: 1024px;
+  padding-top: 150px;
+}
+
+.card {
+  margin: 5px;
+  padding: 5px;
+  border: 3px solid silver;
+  background-color: white;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.card-title {
+  overflow: auto;
+  font-size: 18pt;
+}
+
+.card-text {
+  overflow: auto;
+  font-size: 16pt;
+}
+
+.more-info-btn {
+  margin-right: 5px;
+  float: right;
+}
+
+.media {
+  width: 100%;
+  padding: 0;
+}
+.media-body {
+  text-align: center;
+  padding-top: 15px;
+}
+
+#aboutDiv {
+  width: 100%;
+  font-size: 24pt;
+  padding: 8px;
+}
+#aboutBody {
+  background-color: whitesmoke;
+  margin-top: 20px;
+  color: black;
+}
+.modal-row {
+  border-color: black;
+  position: relative;
+}
+
+.modal-title {
+  text-align: center;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 16pt;
+  color: rgb(227, 189, 66);
+}
+#alertModalInputBig {
+  text-align: center;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 14pt;
+  color: rgb(183, 197, 207);
+}
+.btn-secondary {
+  margin: 3px;
+}
+#modalCloseIcon {
+  float: left;
+  border-color: blue;
+}
