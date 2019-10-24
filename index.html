@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/myCss.css" />
+    <link rel="icon" href="images/icons8-coins-48.png" />
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/canvasjs.min.js"></script>
+    <script src="js/jquery.canvasjs.min.js"></script>
+    <script src="js/custom.js"></script>
+
+    <title>Coins data project</title>
+  </head>
+
+  <body>
+    <nav
+      class="container navbar-outline bg-light navbar-expand-lg navbar-light bg-light"
+      role="navbar"
+      aria-label="Toolbar with button groups"
+      id="header"
+    >
+      <!-- inserting helper container to nav -->
+
+      <div class="container bg-light text-center" id="helper">
+        <div class="row">
+          <div class="col-sm-3-md-3-lg-5 bg-light">
+            <h1 class="display-4">Cryptonite</h1>
+          </div>
+          <div class="col-sm-8-md-9-lg-7 ml-5">
+            <div class="row">
+              <p
+                class="text-center"
+                style="color: rgb(227, 189, 66); font-size: 18pt"
+              >
+                please select coins for live report
+              </p>
+            </div>
+            <div class="btn-group" role="group" aria-label="First group">
+              <button
+                type="button"
+                class="btn btn-secondary modal-open"
+                data-toggle="modal"
+                data-target="#myModal"
+              >
+                change picks
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+                id="modalSaveAndGoHEAD"
+              >
+                go to reports
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <nav class="navbar float-sm-right navbar-expand-lg navbar-light bg-light" id="tabs"> -->
+
+      <!-- end inserting helper container to nav -->
+
+      <form class="form-inline">
+        <ul class="nav nav-pills ">
+          <li class="nav-item" id="homeTab">
+            <a
+              class="nav-link text-secondary border border-secondary"
+              href="#home"
+              >home</a
+            >
+          </li>
+          <li class="nav-item" id="liveReportsTab">
+            <a class="nav-link text-secondary border border-secondary" href="#"
+              >Live Reports</a
+            >
+          </li>
+          <li class="nav-item" id="aboutTab">
+            <a class="nav-link text-secondary border border-secondary" href="#"
+              >About</a
+            >
+          </li>
+        </ul>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <input
+            class="form-control ml-auto"
+            type="search"
+            aria-label="Search"
+            placeholder="Search by coin name.."
+            id="searchInput"
+          />
+          <button
+            class="btn btn-secondery border border-secondary"
+            type="submit"
+            id="searchBtn"
+          >
+            Search
+          </button>
+        </div>
+        <button
+          class="navbar-toggler ml-auto btn-secondary"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          search
+        </button>
+      </form>
+    </nav>
+
+    <div id="home" class="row d-flex align-content-center"></div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header text-center">
+            <h4 class="modal-title">
+              you can only select 5 coins for live report
+            </h4>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              id="modalCloseIcon"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid" id="modal-body-container"></div>
+          </div>
+          <div class="modal-footer">
+            <div class="container-fluid" id="modal-footer-container">
+              <div class="row">
+                <h5 id="alertModalInputBig">
+                  please uncheck atleast one of the coins
+                </h5>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-sm btn-block"
+                  data-dismiss="modal"
+                  id="modalSaveBtn"
+                >
+                  save
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-sm btn-block"
+                  data-dismiss="modal"
+                  id="modalSaveAndGoBtnInModal"
+                >
+                  save and go to live reports
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end modal -->
+    </div>
+  </body>
+</html>
